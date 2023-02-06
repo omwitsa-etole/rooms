@@ -5,7 +5,6 @@ import datetime
 import webbrowser
 import socket
 import sys
-sys.path.append("../")
 import random
 import mysql.connector
 import datetime
