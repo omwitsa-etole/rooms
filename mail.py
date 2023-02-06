@@ -24,10 +24,7 @@ def mail(email_to, code):
 			pass
 
 def notify(email_to, from_user, msg, host):
-	print("here")
-	print(email_to)
-	print(from_user)
-	print(msg)
+	
 	port = 465  # For SSL
 	smtp_server = "smtp.gmail.com"
 	password = "tuhkspzasphcvflr"

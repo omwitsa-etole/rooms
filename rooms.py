@@ -699,10 +699,11 @@ def ApiRoom(mode):
 							if userss:
 								cur.execute("select archived from room_messages where id=%s and reciever_id=%s",(userss[0],users[0],))
 								arch = cur.fetchone()
-								if arch and arch[0] == '1' or arch[0] == 1:
-									cur.execute('INSERT INTO room_messages (id, from_user,to_user,message, dkey, reciever_id,archived) VALUES(%s, %s,%s,%s, %s, %s,%s)', (userss[0], userss[0], users[0], encMessage, key, users[0], '1',))
-								else:
-									cur.execute('INSERT INTO room_messages (id, from_user, to_user, message, dkey, reciever_id) VALUES(%s, %s, %s, %s, %s, %s)', (userss[0], userss[0], users[0], encMessage, key, users[0], ))	
+								if arch:
+									if arch[0] == '1' or arch[0] == 1:
+										cur.execute('INSERT INTO room_messages (id, from_user,to_user,message, dkey, reciever_id,archived) VALUES(%s, %s,%s,%s, %s, %s,%s)', (userss[0], userss[0], users[0], encMessage, key, users[0], '1',))
+									else:
+										cur.execute('INSERT INTO room_messages (id, from_user, to_user, message, dkey, reciever_id) VALUES(%s, %s, %s, %s, %s, %s)', (userss[0], userss[0], users[0], encMessage, key, users[0], ))	
 								
 								
 								msg = "success"
@@ -732,7 +733,7 @@ def ApiRoom(mode):
 						cur.execute("update users set has_new=1 where email_id=%s or email_id=%s",(session["rooms-user"], receiver, ))
 						
 					except Exception as e:
-						db.rollback()
+						db.rollback();print("here")
 						print(str(e))
 						pass
 					finally:
@@ -741,7 +742,7 @@ def ApiRoom(mode):
 					try:
 						notify(reciever, session["room-name"], message, request.host)
 					except Exception as e:
-						print(str(e))
+						print(str(e));print("here2")
 						pass
 				return msg
 			if session.get("active-group") != None and session.get("active-group") != "None":
