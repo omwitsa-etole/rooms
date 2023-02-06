@@ -11,7 +11,7 @@ import datetime
 import webbrowser
 import socket
 #from werkzeug import secure_filename
-import vonage
+#import vonage
 from datetime import date
 from datetime import timedelta
 from cryptography.fernet import Fernet
