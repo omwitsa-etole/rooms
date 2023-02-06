@@ -1,0 +1,111 @@
+{%extends 'index.html'%}
+
+{%block content%}
+
+
+
+<div class="sidebar-group left-sidebar chat_sidebar" id="chat-msgs">
+
+<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 690px;"><div id="chats" class="left-sidebar-wrap sidebar active slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
+<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 690px;"><div class="slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
+
+<div class="left-chat-title d-flex justify-content-between align-items-center">
+<div class="chat-title">
+<h4>GROUP CHAT</h4>
+</div>
+<div class="add-section">
+<ul>
+<li><a href="#" data-bs-toggle="modal" data-bs-target="#add-new-group"><span class="material-icons group-add-btn"><i class="fa fa-user-plus" aria-hidden="true"></i></span></a></li>
+</ul>
+</div>
+</div>
+
+<div class="search_chat has-search mb-0">
+<span class="fas fa-search form-control-feedback"></span>
+<input class="form-control chat_input" id="search-contact1" type="text" placeholder="Search Contacts" onkeyup="filterChat('groups')">
+</div>
+
+<div class="not-online" id="not-online">
+<div class="not-l"></div>
+<div class="not-r">
+<div ><h6>Computer not connected</h6></div>
+<div>Make sure your computer has an active Internet connection. </div>
+<span><a href="#">Reconnect</a></sapn>
+</div>
+</div>
+<div class="sidebar-body" id="chatsidebar"  style="height: 88%;overflow: auto;">
+
+
+</div>
+</div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 487.807px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+</div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 690px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+
+</div>
+
+
+<div class="chat" id="middle" style="">
+<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 620px;"><div class="slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
+<div class="chat-header" id="chat-header">
+
+</div>
+<div class="chat-body" style="height: 70%;overflow: auto;" id="show-messages">
+
+
+
+</div>
+</div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 66px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 444.538px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+<div class="chat-footer">
+<div id="load-messager"></div>
+</div>
+</div>
+
+
+<div class="right-sidebar right_sidebar_profile" id="middle1">
+
+</div>
+<script>
+
+function activateGroup(id){
+	$.post("/api/v/request/checkGroupMessage?active="+id);
+	$("#show-messages").load("/api/v/request/loadroom");
+	getHeader();
+	getMessager();
+	showHide();
+}
+function getHeader(){
+	try{
+		fetch('/room/header')
+		    .then(function(response) {
+			return response.text()
+			hideloader();
+		    })
+		    .then(function(html) {    
+			document.getElementById("chat-header").innerHTML = html;
+			
+		    })
+		    .catch(function(err) {  
+			console.log(err);
+			  
+		    });
+	}catch(err){
+		console.log(err);	
+	}
+}
+function getMessager(){
+	
+	fetch('/room/messager')
+	    .then(function(response) {
+		return response.text()
+		hideloader();
+	    })
+	    .then(function(html) {    
+		document.getElementById("load-messager").innerHTML = html;
+		
+	    })
+	    .catch(function(err) {  
+		console.log(err);
+		  
+	    });
+}
+</script>
+{%endblock%}

@@ -1,0 +1,642 @@
+{%extends 'index.html'%}
+
+{%block content%}
+
+
+<div class="sidebar-group left-sidebar chat_sidebar">
+
+<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 690px;"><div id="chats" class="left-sidebar-wrap sidebar active slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
+<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 690px;"><div class="slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
+
+<div class="left-chat-title d-flex justify-content-between align-items-center">
+<div class="chat-title">
+<h4>CALLS</h4>
+</div>
+</div>
+
+<div class="search_chat has-search mb-0">
+<span class="fas fa-search form-control-feedback"></span>
+<input class="form-control chat_input" id="search-contact1" type="text" placeholder="Search Contacts" onkeyup="filterChat('calls')">
+</div>
+
+<div class="not-online" id="not-online">
+<div class="not-l"></div>
+<div class="not-r">
+<div ><h6>Computer not connected</h6></div>
+<div>Make sure your computer has an active Internet connection. </div>
+<span><a href="#">Reconnect</a></sapn>
+</div>
+</div>
+
+<div class="sidebar-body" id="chat-sidebar" style="height: 85%;overflow: auto;">
+
+<div class="left-chat-title d-flex justify-content-between align-items-center ps-0 pe-0">
+<div class="chat-title">
+<h4>RECENT CALLS</h4>
+</div>
+<div class="add-section">
+<a href="#" data-bs-toggle="modal" data-bs-target="#add-group-call"><i class="fa fa-address-book"></i></a>
+</div>
+</div>
+
+<nav>
+<div class="nav nav-tabs chat-scroll side_bar" id="nav-tab">
+<a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#allcalls">All Calls</a>
+<a class="nav-item nav-link" id="nav-profile-tab1" data-bs-toggle="tab" href="#receivedcalls">Recieved Calls</a>
+<a class="nav-item nav-link" id="nav-profile-tab2" data-bs-toggle="tab" href="#incomingcalls">Incoming Calls</a>
+<a class="nav-item nav-link" id="nav-profile-tab3" data-bs-toggle="tab" href="#missedcalls">Missed Calls</a>
+</div>
+</nav>
+<div class="tab-content settings-form" id="calls">
+
+
+<div class="tab-pane fade show active" id="allcalls">
+<ul class="user-list mt-2">
+<li class="user-list-item">
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>Just now</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?group"><span class="material-icons videocall-icon"><i class="fa fa-video" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Forest Kroch</h5>
+<p>9 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item item-typing">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 callmissed-icon"><i class="fa fa-phone-missed" aria-hidden="true"></i></span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<div class="letter-avatar">
+M
+</div>
+</div>
+</div>
+<div class="users-list-body align-items-center">
+ <div>
+<h5>Townsend Seary</h5>
+<p>3 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Margaretta Worvell</h5>
+<p>4 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>#Tech Support</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<div class="letter-avatar">
+A
+</div>
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Harald Kowalski</h5>
+<p>3 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 callmissed-icon">call_missed</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Alexandr Donnelly</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?group"><span class="material-icons videocall-icon"><i class="fa fa-video" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>8 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 callmissed-icon"><i class="fa fa-phone-missed" aria-hidden="true"></i></span>
+<a href="{{url_for('audioCall')}}?group"><span class="material-icons videocall-icon"><i class="fa fa-video" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+
+<div class="tab-pane fade" id="receivedcalls">
+<ul class="user-list mt-2">
+<li class="user-list-item">
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>Just now</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?group"><span class="material-icons videocall-icon"><i class="fa fa-video" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Margaretta Worvell</h5>
+<p>4 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>#Tech Support</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Forest Kroch</h5>
+<p>9 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<div class="letter-avatar">
+M
+</div>
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Townsend Seary</h5>
+<p>3 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Alexandr Donnelly</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_made</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+
+<div class="tab-pane fade" id="incomingcalls">
+<ul class="user-list mt-2">
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Forest Kroch</h5>
+<p>9 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<div class="letter-avatar">
+M
+</div>
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Townsend Seary</h5>
+<p>3 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-away">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Alexandr Donnelly</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?group"><span class="material-icons videocall-icon"><i class="fa fa-video" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item item-typing">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<div class="letter-avatar">
+A
+</div>
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Harald Kowalski</h5>
+<p>3 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+<li class="user-list-item">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>8 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 incoming-icon">call_received</span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+
+<div class="tab-pane fade" id="missedcalls">
+<ul class="user-list mt-2">
+<li class="user-list-item item-typing">
+<div>
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>Regina Dickerson</h5>
+<p>5 Min Ago</p>
+</div>
+<div class="last-chat-time">
+<span class="material-icons me-3 callmissed-icon"><i class="fa fa-phone-missed" aria-hidden="true"></i></span>
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons calling-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+
+
+</ul>
+</div>
+
+</div>
+</div>
+</div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 503.277px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+</div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 690px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+
+</div>
+
+
+<div class="chat d-flex align-items-center justify-content-center">
+<div class="status-right">
+<div class="audio-chat">
+<img src="{{url_for('static', filename='avatar.jpg')}}" alt="" class="rounded-circle" height="60" width="60">
+<p>Hey, <span class="text-highlight">BRADONE ETOLE!</span></p>
+<p class="m-0">Please select a contact to connect.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="modal fade custom-border-modal" id="add-group-call">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">
+<span class="material-icons"><i class="fa fa-phone" aria-hidden="true"></i></span>Add Call
+</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-icons"><i class="fa fa-times" aria-hidden="true"></i></span>
+</button>
+</div>
+<div class="modal-body">
+<div class="search_chat has-search me-0 ms-0">
+<span class="fas fa-search form-control-feedback"></span>
+<input class="form-control chat_input" type="text" id="contacts-search-contacts" placeholder="Search Contacts" onkeyup="filterChat('contacts')">
+</div>
+<div class="sidebar" style="height: 400px;overflow: auto;" id="contacts-contacts">
+{% for letter in alphabet%}
+{%for contact in contacts%}
+{%if contact[2][0] == letter.lower() or contact[2][0] == letter%}
+<ul class="user-list mt-2">
+<div class="user-lits">
+<span class="contact-name-letter">{{letter}}</span>
+<li class="user-list-item">
+<div class="avatar avatar-online">
+<img src="{{url_for('static', filename='avatar.jpg')}}" class="rounded-circle" alt="image">
+</div>
+<div class="users-list-body align-items-center">
+<div>
+<h5>{{contact[2]}}</h5>
+<p>{{contact[3]}}</p>
+</div>
+<div class="last-chat-time">
+<a href="{{url_for('audioCall')}}?single"><span class="material-icons videocall-icon"><i class="fa fa-phone" aria-hidden="true"></i></span></a>
+</div>
+</div>
+</li>
+</div>
+</ul>
+{%endif%}
+{%endfor%}
+
+{%endfor%}
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="add-contact">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">
+<span class="material-icons">person_add</span>Add Friends
+</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-icons">close</span>
+</button>
+</div>
+<div class="modal-body">
+
+<form action="new-friends">
+<div class="form-group">
+<label>Name</label>
+<input class="form-control form-control-lg group_formcontrol" name="new-chat-title" type="text">
+</div>
+<div class="form-group">
+<label>Nickname</label>
+<input class="form-control form-control-lg group_formcontrol" name="new-chat-title" type="text">
+</div>
+<div class="form-group">
+<label>Phone Number</label>
+<input class="form-control form-control-lg group_formcontrol" name="new-chat-title" type="text">
+</div>
+<div class="form-group">
+<label>Email</label>
+<input class="form-control form-control-lg group_formcontrol" name="new-chat-title" type="email">
+</div>
+</form>
+
+<div class="form-row profile_form text-end float-end m-0 align-items-center">
+
+<div class="cancel-btn me-4">
+<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+</div>
+<div class="">
+<button type="button" class="btn btn-block newgroup_create mb-0" data-bs-dismiss="modal" aria-label="Close">
+Add to contacts
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="video_call" role="document">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content voice_content">
+<div class="modal-body voice_body">
+<div class="call-box incoming-box">
+<div class="call-wrapper">
+<div class="call-inner">
+<div class="call-user">
+<img alt="User Image" src="{{url_for('static', filename='avatar.jpg')}}" class="call-avatar">
+<h4>Brietta Blogg <span>video calling</span>
+</h4>
+</div>
+<div class="call-items">
+<a href="#" class="btn call-item call-end" data-bs-dismiss="modal">
+<span class="material-icons">close</span>
+</a>
+<a href="#" class="btn call-item call-start" data-bs-dismiss="modal">
+<i class="fas fa-video"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="voice_call" role="document">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content voice_content">
+<div class="modal-body voice_body">
+<div class="call-box incoming-box">
+<div class="call-wrapper">
+<div class="call-inner">
+<div class="call-user">
+<img alt="User Image" src="{{url_for('static', filename='avatar.jpg')}}" class="call-avatar">
+<h4>Brietta Blogg <span>voice calling</span>
+</h4>
+</div>
+<div class="call-items">
+<a href="#" class="btn call-item call-end" data-bs-dismiss="modal">
+<span class="material-icons">close</span>
+</a>
+<a href="#" class="btn call-item call-start" data-bs-dismiss="modal">
+<i class="fas fa-video"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+{%endblock%}

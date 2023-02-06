@@ -1,0 +1,40 @@
+{%if session.get("active") != None%}
+<form onsubmit="return SendMessage()">
+<div class="smile-col">
+<a href="#"><i class="fa fa-smile"></i></a>
+</div>
+<div class="attach-col">
+<a href="#"><i class="fa fa-paperclip"></i></a>
+</div>
+<input type="text" id="message" class="form-control chat_form" placeholder="Enter Message....." autocomplete="on">
+<div class="form-buttons">
+<button class="btn send-btn" type="submit" onsubmit="return SendMessage()">
+<span class="material-icons"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></span>
+</button>
+</div>
+<div class="specker-col">
+<a href="#"><span class="material-icons"><i class="fa fa-microphone" aria-hidden="true"></i></span></a>
+</div>
+</form>
+
+{%endif%}
+{%if session.get("active-group") != None%}
+<form onsubmit="return SendMessage()">
+<div class="smile-col">
+<a href="#"><i class="fa fa-smile"></i></a>
+</div>
+<div class="attach-col">
+<a href="#"><i class="fa fa-paperclip"></i></a>
+</div>
+<input type="text" id="message" class="form-control chat_form" placeholder="Enter Message....." autocomplete="on">
+<div class="form-buttons">
+<button class="btn send-btn" type="submit" onsubmit="return SendMessage()">
+<span class="material-icons"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></span>
+</button>
+</div>
+<div class="specker-col">
+<a href="#"><span class="material-icons"><i class="fa fa-microphone" aria-hidden="true"></i></span></a>
+</div>
+</form>
+
+{%endif%}

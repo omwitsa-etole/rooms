@@ -1,0 +1,163 @@
+
+{%if session.get("active") == None and session.get("active-group") == None%}
+<div class="chat d-flex align-items-center justify-content-center">
+<div class="status-right">
+<div class="audio-chat">
+<img src="{{url_for('static', filename='avatar.jpg')}}" alt="" class="rounded-circle" height="60" width="60">
+<p>Hey, <span class="text-highlight">{{session["room-name"]}}</span></p>
+<p class="m-0">Please select a chat to start messaging.</p>
+</div>
+</div>
+</div>
+{%endif%}
+{%if session.get("active") != None%}
+{% for message in messages %}
+	{%if message[3] != 'deleted'%}
+	{% set fernet = Fernet(message[5])%}
+	{% set msg = fernet.decrypt(message[3]).decode()%}
+	{%set ttime = message[4]%}
+	{%else%}
+	{%set msg = 'This Message has been deleted'%}
+	{%endif%}
+	{% if message[2] == session["room-name"]%}
+		<div class="chats" id="message-{{message[8]}}" style="position: relative;">
+		<div class="chat-avatar">
+		<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"  class="rounded-circle dreams_chat">
+		</div>
+		<div class="chat-content" oncontextmenu="document.getElementById('drop-{{message[8]}}').setAttribute('style','display:block;position: absolute;top: 50%;');return false;">
+		<div class="message-content">
+		<p id="msg-{{message[8]}}">{{msg}}</p>
+		<div class="chat-time">
+		<div>
+		<div class="time"><i class="fa fa-clock"></i> {{message[4]}}</div>
+		</div>
+		</div>
+		</div>
+		
+		</div>
+		<div class="chat-action-btns ms-3">
+		<div class="chat-action-col">
+		<a class="#" href="#" data-bs-toggle="dropdown">
+		<i class="fa fa-ellipsis-h"></i>
+		</a>
+		<div class="dropdown-menu dropdown-menu-end" id="drop-{{message[8]}}">
+		<a href="javascript:void(0)" onclick="copyMessage('msg-{{message[8]}}')"  class="dropdown-item dream_profile_menu">Copy <span><i class="fa fa-copy"></i></span></a>
+		<a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+		<a href="javascript:void(0)" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#forward-contacts" class="dropdown-item">Forward <span><i class="fa fa-share"></i></span></a>
+		<a href="javascript:void(0)" onclick="deleteMessage('{{message[8]}}')" class="dropdown-item">Delete <span><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
+		</div>
+		</div>
+		
+		</div>
+		</div>
+	{%else%}
+		<div class="chats chats-right" id="message-{{message[8]}}" style="position: relative;">
+		<div class="chat-avatar">
+		<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"  class="rounded-circle dreams_chat">
+		</div>
+		<div class="chat-content" oncontextmenu="document.getElementById('drop-{{message[8]}}').setAttribute('style','display:block;position: absolute;top: 50%;');return false;">
+		<div class="message-content">
+		<p id="msg-{{message[8]}}">{{msg}}</p>
+		<div class="chat-time">
+		<div>
+		<div class="time"><i class="fa fa-clock"></i> {{message[4]}}</div>
+		</div>
+		</div>
+		</div>
+		
+		</div>
+		<div class="chat-action-btns ms-3">
+		<div class="chat-action-col">
+		<a class="#" href="#" data-bs-toggle="dropdown">
+		<i class="fa fa-ellipsis-h"></i>
+		</a>
+		<div class="dropdown-menu dropdown-menu-end" id="drop-{{message[8]}}">
+		<a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="fa fa-copy"></i></span></a>
+		<a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+		<a href="javascript:void(0)" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#forward-contacts">Forward <span><i class="fa fa-share"></i></span></a>
+		<a href="javascript:void(0)" onclick="deleteMessage('{{message[8]}}')" class="dropdown-item">Delete <span><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
+		</div>
+		</div>
+		<div class="chat-read-col">
+		<span class="material-icons"><i class="fa-solid fa-check-double"></i></span>
+		</div>
+		</div>
+		</div>
+	{%endif%}
+
+{%endfor%}
+{%else%}
+<div class="messages" id="msgs" style="width: 100%;">
+{%for message in messages%}
+{% set fernet = Fernet(message[4])%}
+{% set m = fernet.decrypt(message[2]).decode()%}
+
+{%if message[1] == user_key%}
+<div class="chats chats-right"  style="position: relative;">
+<div class="chat-content" oncontextmenu="document.getElementById('drop-{{message[6]}}').setAttribute('style','display:block;position: absolute;top: 50%;');return false;">
+<div class="message-content">
+{{m}}
+<div class="chat-time">
+<div>
+<div class="time"><i class="fas fa-clock"></i> 10:00</div>
+</div>
+</div>
+</div>
+</div>
+<div class="chat-avatar">
+<img src="assets/img/avatar/avatar-7.jpg" class="rounded-circle dreams_chat" alt="image">
+</div>
+<div class="chat-action-btns me-2">
+<div class="chat-action-col">
+<a class="#" href="#" data-bs-toggle="dropdown">
+<i class="fas fa-ellipsis-h"></i>
+</a>
+<div class="dropdown-menu dropdown-menu-end" id="drop-{{message[6]}}">
+<a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="far fa-copy"></i></span></a>
+<a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+<a href="#" class="dropdown-item">Forward <span><i class="fas fa-share"></i></span></a>
+<a href="#" class="dropdown-item">Delete <span><i class="far fa-trash-alt"></i></span></a>
+</div>
+</div>
+ <div class="chat-read-col">
+<span class="material-icons"><i class="fa-solid fa-check-double"></i></span>
+</div>
+</div>
+</div>
+{%else%}
+<div class="chats" style="position: relative;">
+<div class="chat-avatar">
+<img src="assets/img/avatar/avatar-12.jpg" class="rounded-circle dreams_chat" alt="image">
+</div>
+ <div class="chat-content"  oncontextmenu="document.getElementById('drop-{{message[6]}}').setAttribute('style','display:block;position: absolute;bottom: 50%;');return false;">
+<div class="message-content">
+{{m}}
+<div class="chat-time">
+<div>
+<div class="time"><i class="fas fa-clock"></i> 10:00</div>
+</div>
+</div>
+</div>
+<div class="chat-profile-name">
+<h6>{{message[5]}}</h6>
+</div>
+</div>
+<div class="chat-action-btns ms-3">
+<div class="chat-action-col">
+<a class="#" href="#" data-bs-toggle="dropdown">
+<i class="fas fa-ellipsis-h"></i>
+</a>
+<div class="dropdown-menu dropdown-menu-end" id="drop-{{message[6]}}">
+<a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="far fa-copy"></i></span></a>
+<a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+<a href="#" class="dropdown-item">Forward <span><i class="fas fa-share"></i></span></a>
+<a href="#" class="dropdown-item">Delete <span><i class="far fa-trash-alt"></i></span></a>
+</div>
+</div>
+
+</div>
+</div>
+{%endif%}
+{%endfor%}
+</div>
+{%endif%}

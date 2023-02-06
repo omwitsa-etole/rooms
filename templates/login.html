@@ -1,0 +1,203 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Rooms - Chat, Audio and Video </title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}">
+
+<link rel="stylesheet" href="{{url_for('static', filename='assets/css/app.css')}}">
+<script src="https://kit.fontawesome.com/c63faa1f51.js" crossorigin="anonymous"></script>
+   <script src="https://use.fontawesome.com/4f05e2c5d5.js"></script>
+<style>
+#snackpop {
+  visibility: hidden;
+  min-width: 250px; 
+  margin-left: -125px; 
+  background-color: #333; 
+  color: #fff; 
+  text-align: center; 
+  border-radius: 2px; 
+  padding: 16px;
+  position: fixed; 
+  z-index: 800; 
+  right: 5%; 
+  top: 70px; 
+}
+#snackpop.show{
+	visibility: visible; 
+  -webkit-animation: showin 0.5s, showout 0.5s 2.5s;
+  animation: showin 0.5s, showout 0.5s 2.5s;
+}
+@-webkit-keyframes showin {
+  from {right: 0; opacity: 0;}
+  to {right: 50px; opacity: 1;}
+}
+
+@keyframes showin {
+  from {right: 0; opacity: 0;}
+  to {right: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes showout {
+  from {right: 50px; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+
+@keyframes showout {
+  from {right: 50px; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+@media only screen and (max-width: 800px) {
+.login-left{
+	position: absolute;
+	width: 90%;
+	z-index: 2;
+}
+.login-right{
+	width: 100%;
+}
+}
+</style>
+</head>
+<body class="account-page">
+<div class="main-wrapper">
+
+<div class="content align-items-center">
+<div class="w-100 ">
+<div class="login-left">
+
+<div class="account-content">
+<div class="login-header">
+<a href="{{url_for('rooms')}}">
+Rooms
+</a>
+</div>
+<div class="form-col">
+<div class="login-text-details">
+<h3>Log in</h3>
+<p><b>Login with your Data that you entered during your Registration</b></p>
+</div>
+<div class="form-group">
+<label>Your Email</label>
+<input class="form-control form-control-lg group_formcontrol" name="email" id="l-email" type="email">
+</div>
+<div class="form-group">
+<label class="custom-check d-flex">
+<input type="checkbox">Keep me logged in
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="pt-1">
+<div class="text-center">
+<a style="display:none;" id="succ" data-bs-toggle="modal" data-bs-target="#otp-success" href="javascript:void(0)"></a>
+<button class="btn newgroup_create btn-block d-block w-100" type="button" onclick="getCode('login')" >Login</button>
+</div>
+</div>
+<div class="text-center dont-have">Don’t have an account? <a href="{{url_for('rooms')}}?signup">Signup</a></div>
+
+</div>
+<div class="back-btn-col text-center">
+<a href="{{url_for('rooms')}}"><span><i class="fas fa-caret-left"></i></span> Back</a>
+</div>
+</div>
+
+</div>
+<div class="login-right">
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="otp-success" style="display: none;" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-body">
+
+<form onsubmit="return roomLogin()">
+<div class="form-group">
+<label>OTP Code </label>
+<input class="form-control form-control-lg group_formcontrol" name="otp" id="otp-code" type="text">
+</div>
+
+<div class="form-group" id="msg">
+
+</div>
+
+<label class="custom-check d-flex flex-wrap ps-0 mt-3">
+Didnt recieve OTP ? <a href=javascript:void(0)" onclick="getCode('code')" class="ms-1" > Resend OTP.</a>
+</label>
+<div class="text-center">
+<button type="submit"onsubmit="return roomLogin()" class="btn newgroup_create btn-block d-block w-100" >Enter</button>
+</div>
+<div class="modal-close text-end">
+<div class="close-modal" data-bs-dismiss="modal" id="cs">
+<span>close</span>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div id="snackpop"></div>
+<script src="{{url_for('static', filename='assets/js/jquery.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/js/jquery.slimscroll.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/js/script.js')}}"></script>
+<script>
+function getCode(mode){
+	$.ajaxSetup({async: false});
+	var email = document.getElementById("l-email").value;
+	if(email.length > 0){
+		let msg = $.post("/api/v1/request/getCode", {key: "email",email: email});
+		if(msg.responseText == "success"){
+			snackPop("A verification code has been sent to email");
+			if(mode == "login"){
+				document.getElementById("succ").click()
+			}else{
+				document.getElementById("msg").innerText = "Code Resent"
+			}
+			
+			
+		}else{
+			snackPop(msg.responseText);			
+		}	
+	}else{
+		snackPop("Email Field required");
+	}
+}
+function roomLogin(){
+	$.ajaxSetup({async: false});
+	var code=document.getElementById("otp-code").value;
+	var email = document.getElementById("l-email").value;
+	if(email.length<1 && email!=""){
+		document.getElementById("cs").click()
+		snackPop("Email Field Required");
+		return false;
+	}
+	if(code.length > 0){
+		let msg = $.post("/api/v1/request/login", {key: "email",email: email,code:code});
+		if(msg.responseText == "success"){
+			snackPop("Login Successfull");
+			location.reload()
+		}else{
+			snackPop(msg.responseText);			
+		}
+	}else{
+		document.getElementById("msg").innerText = "Enter Code"
+	}
+	return false;
+}
+function snackPop(text){
+	var x = document.getElementById("snackpop");
+	x.innerText = text;
+	x.className = "show";
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+</script>
+</body>
+</html>

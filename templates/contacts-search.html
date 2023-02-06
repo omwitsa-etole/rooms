@@ -1,0 +1,20 @@
+{%if n == 0%}
+<p>No Contacts Matching {{contact}} found
+{%endif%}
+<ul class="user-list mt-2" style="height: 100%;overflow: auto;">
+{%for user in users%}
+<li class="user-list-item" id="{{user[2]}}" onclick="activateRoom(this.id)">
+<div class="avatar avatar-online">
+<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" class="rounded-circle">
+</div>
+<div class="users-list-body">
+<div>
+<h5>{{user[2]}}</h5>
+</div>
+<div class="last-chat-time">
+<small class="text-muted">{{user[3]}}</small>
+</div>
+</div>
+</li>
+{%endfor%}
+</ul>

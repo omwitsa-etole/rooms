@@ -1,0 +1,161 @@
+
+{%if session.get("groups") == None%}
+<ul class="user-list mt-2" style="height: 70%;overflow: auto;">
+{% set shown = []%}
+{%if chats == None%}
+{% for message in messages%}
+	{%if message[3] != 'deleted'%}
+	{%set pos=messages.index(message)%}
+	{% if message[9] != 1 and message[0] == eid[0] or  message[6] == eid[0] %}
+	
+			{%if message[6] not in shown%}
+				{%if message[3] != 'deleted'%}
+				{% set fernet = Fernet(message[5])%}
+				{% set msg = fernet.decrypt(message[3]).decode()%}
+				{%else%}
+				{%set msg = 'This Message has been deleted'%}
+				{%endif%}
+				<a style="display: none;">{{ shown.append(message[6]) }}</a>
+				<a style="display: none;">{{ shown.append(message[0]) }}</a>
+				{%if get_users[pos][1] == session["room-name"]%}
+					<li class="user-list-item" id="{{get_users[pos][0]}}" onclick="activateRoom(this.id)">
+					<div class="avatar avatar-online">
+					<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" class="rounded-circle">
+					</div>
+					<div class="users-list-body">
+					<div>
+					<h5>{{get_users[pos][0]}}</h5>
+				{%endif%}
+				{%if get_users[pos][0] == session["room-name"]%}
+					<li class="user-list-item" id="{{get_users[pos][1]}}" onclick="activateRoom(this.id)">
+					<div class="avatar avatar-online">
+					<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" class="rounded-circle">
+					</div>
+					<div class="users-list-body">
+					<div>
+					<h5>{{get_users[pos][1]}}</h5>
+				{%endif%}
+				<p>{{msg}}</p>
+				</div>
+				<div class="last-chat-time">
+				<small class="text-muted">{{message[4]}}</small>
+				<div class="new-message-count">11</div>
+				</div>
+				</div>
+				</li>
+				
+			{%endif%}
+	{% else%}
+			
+	{%endif%}
+	{%endif%}
+{%endfor%}
+{%else%}
+<h6 style="text-align: right;width: 100%;"><a style="cursor: pointer;float: left;"onclick="getArchived('false')"><i class="fa fa-angle-left " aria-hidden="true"></i></a> Archived</h6>
+{% for message in messages%}
+	{%if message[3] != 'deleted'%}
+	{%set pos=messages.index(message)%}
+	{% if message[0] == eid[0]  and message[9] != 0%}
+	
+			{%if message[6] not in shown%}
+				{%if message[3] != 'deleted'%}
+				{% set fernet = Fernet(message[5])%}
+				{% set msg = fernet.decrypt(message[3]).decode()%}
+				{%else%}
+				{%set msg = 'This Message has been deleted'%}
+				{%endif%}
+				<a style="display: none;">{{ shown.append(message[6]) }}</a>
+				{%if get_users[pos][1] == session["room-name"]%}
+					<li class="user-list-item" id="{{get_users[pos][0]}}" onclick="activateRoom(this.id)">
+					<div class="avatar avatar-online">
+					<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" class="rounded-circle">
+					</div>
+					<div class="users-list-body">
+					<div>
+					<h5>{{get_users[pos][0]}}</h5>
+				{%endif%}
+				{%if get_users[pos][0] == session["room-name"]%}
+					<li class="user-list-item" id="{{get_users[pos][1]}}" onclick="activateRoom(this.id)">
+					<div class="avatar avatar-online">
+					<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" class="rounded-circle">
+					</div>
+					<div class="users-list-body">
+					<div>
+					<h5>{{get_users[pos][1]}}</h5>
+				{%endif%}
+				<p>{{msg}}</p>
+				</div>
+				<div class="last-chat-time">
+				<small class="text-muted">{{message[4]}}</small>
+				<div class="new-message-count">11</div>
+				</div>
+				</div>
+				</li>
+				
+			{%endif%}
+	{% else%}
+			
+	{%endif%}
+	{%endif%}
+{%endfor%}
+{%endif%}
+<!---------
+<li class="user-list-item item-typing">
+<div>
+<div class="avatar avatar-online">
+<img src="avatar.jpg"  class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body">
+<div>
+<h5>Regina Dickerson</h5>
+<p><span class="animate-typing-col">
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</span>
+</p>
+</div>
+<div class="last-chat-time">
+<small class="text-muted">05 min</small>
+</div>
+</div>
+</li>
+--------->
+</ul>
+{%endif%}
+{%if session.get("groups") !=None%}
+<ul class="user-list mt-2">
+{%if mn ==0%}
+<li class="user-list-item" >
+You are not in any groups
+</li>
+{%endif%}
+{% for group in my_groups%}
+<li class="user-list-item" id="{{group[0]}}" onclick="activateGroup(this.id)">
+<div>
+<div class="avatar avatar-away">
+<img src="assets/img/group-4.jpg" class="rounded-circle" alt="image">
+</div>
+</div>
+<div class="users-list-body">
+<div>
+<h5>{{group[1]}} <span class="ms-1"><span class="material-icons lock-icon"><i class="fa"></i></span></span></h5>
+{%for msg in my_group_messages%}
+
+{%if msg[0] == group[0]%}
+{% set fernet = Fernet(msg[4])%}
+{% set m = fernet.decrypt(msg[2]).decode()%}
+<p><strong>{{msg[5]}}</strong> : {{m}}</p>
+{%endif%}
+{%endfor%}
+</div>
+ <div class="last-chat-time">
+<small class="text-muted">20 Min</small>
+<div class="new-message-count">11</div>
+</div>
+</div>
+</li>
+{%endfor%}
+</ul>
+{%endif%}

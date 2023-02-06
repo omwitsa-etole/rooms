@@ -1,0 +1,93 @@
+{%extends 'index.html'%}
+
+{%block content%}
+<style>
+#middle{
+	position:absolute;width:67%;right:0;top: 0;
+}
+@media only screen and (max-width:900px) {
+	#middle{
+		width: 100%;
+	}
+}
+</style>
+<script src="{{url_for('static', filename='assets/js/jquery.js')}}"></script>
+<div id="not-online" style="visibility:hidden"></div>
+<div id="ss" style="position:relative;width:100%;">
+
+</div>
+<script>
+$(document).ready(function(){
+	getProfile()
+	$("#ss").load("/api/v/request/getProfile");
+	setInterval(loadchats, 3000);
+})
+function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+   }
+function loadchats(){
+	if(location.hash.includes("archived")){
+		$("#load-chats").load("/api/v/request/loadmessages?archived");
+		getArchived('true');
+		location.hash = "";
+	}
+	let msg = $.post("/api/v/request/checkRoom");
+	
+	if(!window.navigator.onLine){
+		document.getElementById('not-online').style.display = 'block';
+	}else{
+		document.getElementById('not-online').style.display = 'none';
+	}
+	let x = msg.responseText
+	x = x.split(",")
+	if(x[0] == "true"){
+		try{
+			$("#load-chats").load("/api/v/request/loadmessages");
+			$("#show-messages").load("/api/v/request/loadroom");
+			let div = document.getElementById("show-messages")
+			div.scrollTop = div.scrollHeight;
+		}catch(err){
+			console.log("err");
+			snackPop("You have a new message");		
+		}
+	}	
+	console.log(x[2])
+	if(x[1] == "true"){
+		newCall(x[2]);
+	}else{
+		document.getElementById('voicecall_end').click();
+	}
+}
+
+function getProfile(){
+	`
+	try{
+		document.getElementById("ss").innerHTML = "loading";
+	}catch(err){
+		console.log(err);
+		setTimeout(getProfile,2500);
+	}
+	fetch("/api/v/request/getProfile")
+		    .then(function(response) {
+			return response.text()
+			hideloader();
+		    })
+		    .then(function(html) {    
+			document.getElementById("ss").innerHTML = html;
+			
+		    })
+		    .catch(function(err) {  
+			console.log(err);
+			  
+		    });
+	`;
+	
+}
+function getHeader(){
+	
+}
+function getMessager(){
+	
+}
+</script>
+{%endblock%}

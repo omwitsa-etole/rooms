@@ -1,0 +1,1396 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>Video Call Html Template</title>
+
+<link rel="stylesheet" href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}">
+
+<link rel="stylesheet" href="{{url_for('static', filename='assets/plugins/fontawesome/css/fontawesome.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='assets/plugins/fontawesome/css/all.min.css')}}">
+
+<link rel="stylesheet" href="{{url_for('static', filename='assets/css/feather.css')}}">
+
+<link rel="stylesheet" href="{{url_for('static', filename='assets/css/style2.css')}}">
+<style>.ptro-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    font-family: "Open Sans", sans-serif;
+}
+
+@media screen and (min-width: 869px) {
+    .ptro-holder {
+        position: fixed;
+        left: 35px;
+        right: 35px;
+        top: 35px;
+        bottom: 35px;
+        box-shadow: 1px 1px 5px #888;
+    }
+}
+
+@media screen and (max-width: 868px) {
+    .ptro-holder {
+        position: fixed;
+        box-shadow: 3px 3px 15px #787878;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.ptro-holder-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.ptro-wrapper.ptro-v-aligned:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+
+.ptro-icon {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.ptro-icon-btn:disabled {
+    color: gray;
+}
+
+.ptro-wrapper canvas {
+    /* vertical-align: middle; */
+    display: inline-block;
+    touch-action: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+}
+
+.ptro-center-table {
+    display:table;
+    width: 100%;
+    height: 100%;
+}
+
+.ptro-center-tablecell {
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.ptro-icon-btn {
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ptro-icon-btn i {
+}
+
+
+.ptro-named-btn {
+    border: 0;
+    display: inline-block;
+    height: 30px;
+    margin-left: 4px;
+    font-family: "Open Sans", sans-serif;
+    position: relative;
+    top:-5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.ptro-icon-btn:focus,
+.ptro-named-btn:focus,
+.color-diwget-btn:focus,
+.ptro-color-btn:focus,
+.ptro-selector-btn:focus {
+    outline: none;
+}
+
+.ptro-color-btn {
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+}
+
+
+.ptro-wrapper .select-handler {
+    background-color: white;
+    border: 1px solid black;
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    z-index: 10;
+}
+
+.ptro-wrapper .ptro-crp-el {
+    position: absolute;
+}
+
+.ptro-wrapper .ptro-substrate {
+    opacity: 0.3;
+    background-image: url();
+    background-size: 32px 32px;
+    z-index: -1;
+    position: absolute;
+}
+
+.ptro-wrapper .ptro-close-color-picker {
+    height: 24px;
+    margin-top: 5px;
+    margin-bottom: -5px;
+    margin-left: auto;
+}
+
+.ptro-tool-controls {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.ptro-wrapper .ptro-crp-rect {
+    position: absolute;
+    background-color: rgba(225, 225, 225, .5);
+    border: 1px dashed black;
+    cursor: move;
+    -moz-user-select: none;
+    /* -webkit-user-select: none; */
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.ptro-wrapper .ptro-crp-tl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: -4px 0 0 -4px;
+    cursor: se-resize;
+}
+
+.ptro-wrapper .ptro-crp-bl {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 0 0 -4px -4px;
+    cursor: ne-resize;
+}
+
+.ptro-wrapper .ptro-crp-br {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0 -4px -4px 0;
+    cursor: se-resize;
+}
+
+.ptro-wrapper .ptro-crp-tr {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: -4px -4px 0 0;
+    cursor: ne-resize;
+}
+
+
+.ptro-wrapper .ptro-crp-l {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin: -4px 0 0 -4px;
+    cursor: e-resize;
+}
+
+.ptro-wrapper .ptro-crp-t {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin: -4px 0 0 -4px;
+    cursor: s-resize;
+}
+
+.ptro-wrapper .ptro-crp-r {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin: -4px -4px 0 0 ;
+    cursor: e-resize;
+}
+
+.ptro-wrapper .ptro-crp-b {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin: 0 0 -4px -4px;
+    cursor: s-resize;
+}
+
+.ptro-wrapper div,
+.ptro-wrapper span,
+.ptro-wrapper i,
+.ptro-bar .ptro-tool-ctl-name,
+.ptro-bar input,
+.ptro-bar .ptro-named-btn p {
+    -moz-user-select: none;
+   /* -webkit-user-select: none; */
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+}
+
+.ptro-bar > div {
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.ptro-wrapper .ptro-common-widget-wrapper {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.ptro-wrapper .ptro-pallet canvas {
+    cursor: crosshair;
+}
+
+div.ptro-pallet {
+    line-height: 0;
+}
+
+.ptro-wrapper .ptro-pallet,
+.ptro-wrapper .ptro-resize-widget{
+    width: 200px;
+    padding: 10px;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.ptro-error {
+    background-color: rgba(200, 0, 0, 0.5);
+    padding: 5px;
+    margin: 5px;
+    color: white;
+}
+
+.ptro-v-middle:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.ptro-v-middle-in {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+
+.ptro-wrapper .ptro-settings-widget {
+    width: 300px;
+    padding: 10px;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+td.ptro-resize-table-left {
+    text-align: right;
+    padding-right: 5px;
+    float: none;
+    font-size: 14px;
+}
+
+.ptro-wrapper .ptro-color-edit {
+    margin-top: 15px;
+}
+
+.ptro-wrapper .ptro-color-edit input {
+    float: left;
+    height: 24px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.ptro-wrapper .ptro-color-edit input:focus {
+    outline: none;
+}
+
+.ptro-wrapper .ptro-color-edit input.ptro-color {
+    width: 70px;
+}
+
+.ptro-wrapper .ptro-color-edit input.ptro-color-alpha {
+    font-size: 14px;
+    width: 55px;
+    padding: 0 0 0 2px;
+    line-height: 23px;
+    height: 23px;
+}
+
+.ptro-wrapper .ptro-color-alpha-label,
+.ptro-wrapper .ptro-label  {
+    float: left;
+    padding: 0 2px 0 0;
+    margin-left: 5px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.ptro-pixel-size-input {
+    width: 60px;
+}
+
+.ptro-wrapper .ptro-pipette {
+    height: 24px;
+    width: 24px;
+    margin: 0;
+}
+
+div.ptro-color-widget-wrapper {
+	z-index: 1000;
+}
+
+.ptro-wrapper .ptro-pipette i {
+    line-height: 16px;
+}
+
+.ptro-wrapper .ptro-pipette:active {
+    outline: none;
+}
+
+.ptro-wrapper .ptro-color-widget-wrapper .ptro-canvas-light,
+.ptro-wrapper .ptro-color-widget-wrapper .ptro-canvas-alpha {
+    margin-top: 10px;
+}
+
+span.ptro-color-light-regulator,
+span.ptro-color-alpha-regulator {
+    display: block;
+    margin-top: -5px;
+    margin-left: 5px;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid;
+    cursor: crosshair;
+}
+
+span.ptro-color-alpha-regulator {
+    margin-top: 0;
+}
+
+.alpha-checkers {
+    background-image: url();
+    display: block;
+    width: 100%;
+    height: 15px;
+    background-size: 10px 10px;
+    margin-top: -20px;
+}
+
+input.ptro-input:focus,
+select.ptro-input:focus {
+    outline: none;
+    box-shadow: none ;
+}
+
+input.ptro-input,
+select.ptro-input {
+    vertical-align: initial;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
+.ptro-named-btn p {
+    font-size: inherit;
+    line-height: normal;
+    margin: inherit;
+}
+
+.ptro-wrapper .ptro-zoomer {
+    border-top:1px solid white;
+    border-left:1px solid white;
+    position: absolute;
+    z-index: 2000;
+    display: none;
+}
+
+.ptro-text-tool-input {
+    background-color: rgba(0,0,0,0);
+    width: auto;
+    outline: 1px dotted;
+    display: block;
+    min-width: 5px;
+    padding: 0 1px;
+    overflow-x: hidden;
+    word-wrap: normal;
+    overflow-y: hidden;
+    box-sizing: content-box;
+    line-height: normal;
+    text-align: left;
+}
+.ptro-paster-wrappers-fits {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.ptro-selector-extend[type] {
+    height: 70px;
+    width: 70px;
+}
+.ptro-selector-extend div:last-child {
+    display: none;
+}
+.ptro-selector-fit[type] {
+    height: 220px;
+    width: 220px;
+    margin: 0px;
+}
+.ptro-paster-fit[class] {
+    margin-right: 46px;
+}
+.ptro-text-tool-buttons {
+    display: flex;
+    position: absolute;
+}
+.ptro-text-tool-input-wrapper {
+    position: absolute;
+}
+
+span.ptro-btn-color-checkers {
+    background-image: url();
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-size: 16px 16px;
+    margin-top: -32px;
+}
+
+span.ptro-btn-color-checkers-bar {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZyBmaWxsPSIjNDY0NjQ2Ij48cGF0aCBkPSJNMCAwaDUwdjUwSDB6TTUwIDUwaDUwdjUwSDUweiIvPjwvZz48L3N2Zz4=);
+    width: 32px;
+    line-height: 12px;
+    height: 32px;
+    background-size: 16px 16px;
+    z-index: 0;
+    position: relative;
+    margin-left: -32px;
+}
+
+.ptro-bar-right {
+    display: flex;
+
+}
+
+.ptro-link {
+    float: left;
+    margin-right: -12px;
+    margin-top: -23px;
+}
+
+.ptro-resize-link-wrapper {
+    display: inline-block;
+    height: 40px;
+}
+
+
+input.ptro-resize-width-input,
+input.ptro-resize-heigth-input,
+input.ptro-pixel-size-input {
+    line-height: 22px;
+    padding: 0 0 0 4px;
+    height: 22px;
+    width: 80px;
+}
+
+.ptro-selector-btn i {
+    font-size: 56px;
+}
+
+.ptro-selector-btn {
+    opacity: 0.8;
+    border: 0;
+    width: 100px;
+    cursor: pointer;
+}
+
+.ptro-selector-btn {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ptro-selector-btn div {
+    margin: 5px 0;
+}
+
+.ptro-paster-select .ptro-in div {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+}
+
+.ptro-selector-btn:hover {
+    opacity: 0.6;
+}
+
+.ptro-paster-select {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+.ptro-paster-select .ptro-in {
+    background-color: rgba(0,0,0,0.7);
+    padding: 40px;
+}
+.ptro-paster-select-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.ptro-paster-select-wrapper-extends button:first-child {
+    display: block;
+    margin: 0 auto;
+}
+.ptro-paster-select-wrapper-extends button:last-child{
+    display: block;
+    margin: 0 auto;
+}
+.ptro-paster-select-wrapper-extends button:nth-child(2){
+    display: inline-block;
+    margin-right: 78px;
+}
+.ptro-paster-fit .ptro-paster-wrapper-label[class] {
+    display: block; 
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+.ptro-paster-select-wrapper-extends .ptro-paster-wrapper-label[class] {
+    display: block; 
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+.ptro-paste-label {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.ptro-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+
+
+i.mce-i-painterro:before, span.mce_painterro:before {
+	font-size: 20px;
+	font-family: ptroiconfont;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f101";
+}
+
+.ptro-scroller {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+td.ptro-strict-cell {
+    font-size: 8px;
+    line-height: normal;
+}
+.color-diwget-btn {
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.color-diwget-btn-substrate {
+    width: 32px;
+}
+
+select.ptro-input[data-id='fontName'] {
+    width: 45px;
+}
+
+.ptro-bar .ptro-tool-ctl-name {
+    padding: 0 2px 0 0;
+    font-family: "Open Sans", sans-serif;
+    line-height: 22px;
+}
+
+.ptro-bar .ptro-tool-ctl-name {
+    margin-left: 5px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-left: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.ptro-info {
+    font-family: "Open Sans", sans-serif;
+    font-size: 10px;
+    padding: 4px;
+    margin-left: auto;
+    word-break: keep-all;
+    white-space: normal;
+    text-align: right;
+}
+
+.ptro-info > span {
+    opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+    .ptro-bar > div {
+        white-space: nowrap;
+    }
+    span.ptro-bar-right {
+        float: none;
+    }
+    span.ptro-info {
+        display: none;
+    }
+    
+}
+
+.ptro-bar .ptro-input {
+    height: 32px;
+    line-height: 32px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    position: relative;
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+.ptro-bar .ptro-input[type="number"] {
+    width: 42px;
+}
+
+.ptro-bar .ptro-named-btn p {
+    margin: 0;
+}
+
+.ptro-bar {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.ptro-bar > div {
+    position: relative;
+}
+
+.ptro-bar > div::-webkit-scrollbar {
+    height: 2px;
+}
+    
+/* Track */
+.ptro-bar > div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+    
+/* Handle */
+.ptro-bar > div::-webkit-scrollbar-thumb {
+    background: #888;
+}
+    
+/* Handle on hover */
+.ptro-bar > div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.ptro-bar .ptro-icon-btn {
+}
+
+button.ptro-icon-right:first-of-type {
+    margin-right: 4px;
+}
+
+button.ptro-input[data-value="false"],button.ptro-input[data-value="true"] {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+    cursor: pointer;
+    outline: 0;
+}
+
+button.ptro-input[data-value="true"]::after {
+    content: '✔';
+    font-size: 20px;
+    line-height: 12px;
+    width: 12px;
+    height: 12px;
+    border: 0;
+    /* background: rgba(0,0,0,0.5); */
+    display: inline-block;
+}
+
+@-webkit-keyframes ptro-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes ptro-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.dropdown {
+  
+ 
+}
+.dropdown img{
+	border-radius: 50%;
+	margin-top: ;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	position: relative;
+}
+
+.dropdown-content {
+  display: none;
+ 
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+.profile-icon-col{float: right;}
+</style>
+<script src="https://kit.fontawesome.com/c63faa1f51.js" crossorigin="anonymous"></script>
+   <script src="https://use.fontawesome.com/4f05e2c5d5.js"></script>
+
+</head>
+<body data-theme="light">
+
+<div class="main-wrapper">
+
+<header class="header fixed-position">
+<nav class="navbar navbar-expand-lg header-nav">
+<div class="navbar-header">
+<a href="javascript:void(0);" class="navbar-brand logo">
+<img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+</a>
+<p>a2x3-x3pp-ca2i-extn</p>
+</div>
+<div class="main-menu-wrapper">
+
+</div>
+<ul class="nav header-navbar-rht">
+<li class="nav-item dark-mode">
+<label class="toggle-switch" for="notification_switch3">
+<span>
+<input type="checkbox" class="toggle-switch-input" id="notification_switch3">
+<span class="toggle-switch-label ms-auto">
+<span class="toggle-switch-indicator"></span>
+</span>
+</span>
+<span>Dark Mode <i id="is-dark">Off</i></span>
+</label>
+</li>
+<li class="nav-item">
+<div class="dropdown">
+<a href="#" class="nav-link p-0">
+<span class="user-img">
+<img src="avatar.jpg" alt="user">
+</span>
+<span class="user-name">Carl Kelly</span>
+<div class="dropdown-content" id="profile-drop">
+<a href="#">Home</a>
+<a href="javascript:void(0)">Profile <span class="profile-icon-col"><i class="fa fa-id-card-alt"></i></span></a>
+<a href="settings.html" >Settings <span class="profile-icon-col"><i class="fa fa-cog"></i></span></a>
+<a href="archived.html">Archived <span class="profile-icon-col"><i class="fa fa-archive" aria-hidden="true"></i></span></a>
+<a href="login-email.html">Logout <span class="profile-icon-col"><i class="fa fa-power-off" aria-hidden="true"></i></span></a>
+</div>
+</a>
+</div>
+</li>
+</ul>
+</nav>
+</header>
+
+
+<div class="page-content">
+<div class="meeting">
+<div class="meeting-wrapper">
+<div class="meeting-list">
+
+<div class="join-contents horizontal-view fade-whiteboard" style="min-height: 438px;display:;" id="view-1">
+<div class="join-video " style="height: 114.5px;">
+<video autoplay  id="vid-stream" class="video-fluid" alt="Logo" style="height: 100%;width: 100%;"></video>
+<audio autoplay></audio>
+<div class="video-avatar">
+<div class="text-avatar">
+<div class="text-box">
+S
+</div>
+</div>
+</div>
+<div class="part-name">
+<h4>Shira</h4>
+</div>
+<div class="more-icon">
+<a href="#" class="handraise-on">
+<i class="fa fa-hand-paper"></i>
+</a>
+<a href="#" class="mic-off">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+<div class="join-video single-user" style="height: 114.5px; min-height: 114.5px;">
+<video autoplay  class="video-fluid" alt="Logo" style="height: 100%;width: 100%;" src="vid1.mkv"></video>
+<div class="part-name">
+<h4>Saba G</h4>
+</div>
+<div class="more-icon">
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+<div class="join-video single-user" style="height: 114.5px; min-height: 114.5px;">
+<div class="d-block">
+<div class="text-avatar">
+<div class="text-box">
+L
+</div>
+</div>
+</div>
+<div class="part-name">
+<h4>Linnea</h4>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+<div class="join-video single-user" style="height: 114.5px;">
+<video autoplay  class="video-fluid" alt="Logo" style="height: 100%;width: 100%;" src="vid2.mkv"></video>
+<div class="part-name">
+<h4>Elsie</h4>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+</div>
+
+
+<div class="join-contents vertical-view show-whiteboard" style="min-height: 438px;display: none;" id="view-2">
+<div class="join-video user-active" style="height: 114.5px;">
+<video autoplay  id="vid-stream-2" class="video-fluid" alt="Logo" style="height: 100%;width: 100%;"></video>
+<audio autoplay></audio>
+</div>
+<div class="vertical-sec">
+<div class="join-video single-user" style="height: 114.5px; min-height: 114.5px;">
+<video autoplay  class="video-fluid" alt="Logo" style="height: 100%;width: 100%;" src="vid3.mkv"></video>
+<div class="part-name">
+<h4>Saba G</h4>
+</div>
+<div class="more-icon">
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="fa fa-microphone-slash" aria-hidden="true"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+<div class="join-video single-user" style="height: 114.5px; min-height: 114.5px;">
+<div class="d-block">
+<div class="text-avatar">
+<div class="text-box">
+L
+</div>
+</div>
+</div>
+<div class="part-name">
+<h4>Linnea</h4>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="feather-mic-off"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+<div class="join-video single-user" style="height: 114.5px; min-height: 114.5px;">
+<video autoplay  class="video-fluid" alt="Logo" style="height: 100%;width: 100%;" src="vid4.mkv"></video>
+<audio autoplay></audio>
+<div class="part-name">
+<h4>Elsie</h4>
+</div>
+<div class="overlay-icon">
+<a href="#">
+<i class="fa fa-thumbtack"></i>
+</a>
+<a href="#">
+<i class="feather-mic-off"></i>
+</a>
+<a href="#">
+<i class="feather-minus-circle"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="meet-footer">
+<div class="meet-icons">
+<div class="view-more">
+<ul class="meet-items">
+<li class="meet-item  dropdown dropdown-action">
+<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="feather-more-vertical"></i>
+</a>
+<ul class="dropdown-menu settings-menu">
+<li><a class="dropdown-item" onclick="shareScreen()"><i class="fa fa-user-plus" aria-hidden="true"></i> Share screen</a></li>
+<li><a class="dropdown-item showInviteList" href="#"><i class="fa fa-user-plus" aria-hidden="true"></i> Invite People</a></li>
+<li><a class="dropdown-item showChatList" href="#"><i class="fa fa-message-circle" aria-hidden="true"></i> Chat</a></li>
+<li><a class="dropdown-item whiteboard" href="#"><i class="fa fa-edit-3" aria-hidden="true"></i> Whiteboard</a></li>
+<li><a class="dropdown-item record-icon" href="#"><i class="fa fa-dot-circle" aria-hidden="true"></i> Start Recording</a></li>
+<li><a class="dropdown-item" href="#"><i class="fa fa-microphone-slash" aria-hidden="true"></i> Mute Everyone</a></li>
+<li><a class="dropdown-item" href="#"><i class="fa fa-video-slash" aria-hidden="true"></i> Disable Everyone’s Camera</a></li>
+<li><a class="dropdown-item" href="#"><i class="fa fa-youtube" aria-hidden="true"></i> Share a Video</a></li>
+<li><a class="dropdown-item" href="#"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="met-icons">
+<ul class="meet-items">
+<li class="meet-item  dropdown dropdown-action">
+<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="feather-settings"></i>
+</a>
+<ul class="dropdown-menu settings-menu">
+<li><a class="dropdown-item" href="#"><span class="user-img"><img src="assets/img/user.jpg" alt="user"> Carl Kelly</span></a></li>
+<li><a class="dropdown-item showInviteList" href="#"><i class="feather-user-plus"></i> Invite People</a></li>
+<li><a class="dropdown-item  win-maximize" href="#"><i class="feather-maximize"></i> View Full Screen</a></li>
+<li><a class="dropdown-item record-icon" href="#"><i class="fa fa-dot-circle"></i> Start Recording</a></li>
+<li><a class="dropdown-item" href="#"><i class="feather-mic-off"></i> Mute Everyone</a></li>
+<li><a class="dropdown-item" href="#"><i class="feather-camera-off"></i> Disable Everyone’s Camera</a></li>
+<li><a class="dropdown-item" href="#"><i class="feather-youtube"></i> Share a Video</a></li>
+<li><a class="dropdown-item" href="#"><i class="feather-settings"></i> Settings</a></li>
+<li><a class="dropdown-item" href="#"><i class="feather-code"></i> Embed meeting</a></li>
+</ul>
+</li>
+<li class="meet-item">
+<a onclick="closeShow()" class="mute-video">
+<i class="fa fa-video" id="vid"></i>1
+</a>
+</li>
+<li class="meet-item">
+<a onclick="mute()" class="mute-bt">
+<i class="fa fa-microphone-slash" id="mute"></i>2
+</a>
+</li>
+</ul>
+</div>
+<div class="action-icons">
+<ul class="action-items">
+<li class="action-item">
+<a href="join-call.html" class="callend-icon">
+<i class="material-icons" title="cal_end"><i class="fa fa-phone" aria-hidden="true"></i></i>
+</a>
+</li>
+<li class="action-item">
+<a href="#" class="share-icon">
+<i class="fa fa-share"></i>
+</a>
+</li>
+<li class="action-item">
+<a href="#" class="record-icon">
+<i class="fa fa-dot-circle"></i>
+</a>
+</li>
+</ul>
+</div>
+<div class="end-call">
+<ul class="meet-items">
+<li class="meet-item">
+<a href="#" class="hand-raise">
+<i class="fa fa-hand-paper"></i>
+</a>
+</li>
+<li class="meet-item">
+<a href="#" class="showInviteList">
+<i class="feather-users"></i>
+ </a>
+</li>
+<li class="meet-item">
+<a onclick="switchView()">
+<i class="feather-edit-3"></i>
+</a>
+</li>
+<li class="meet-item">
+<a href="#" class="showChatList">
+<i class="feather-message-circle"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="show-record">
+<p><i class="fa fa-dot-circle text-danger"></i> Recording</p><p>
+</p></div>
+
+
+<div class="chat-cont-right user-sidebar-right">
+<div class="chat-header">
+<a href="#" class="close-btn" id="chatClose">
+<i class="feather-x"></i>
+</a>
+</div>
+<div class="message-body">
+<div class="chat-body">
+<div class="chat-scroll">
+<ul class="list-unstyled">
+<li class="media received">
+<div class="avatar">
+<img src="assets/img/users/user-02.jpg" alt="User Image" class="avatar-img">
+</div>
+<div class="media-body">
+<div class="msg-box">
+<ul class="chat-msg-info">
+<li>
+<div class="chat-time">
+Linnea <span>8:35 AM</span>
+</div>
+</li>
+</ul>
+<div>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+</div>
+</div>
+</div>
+</li>
+<li class="media received">
+<div class="avatar">
+<img src="assets/img/users/user-01.jpg" alt="User Image" class="avatar-img">
+</div>
+<div class="media-body">
+<div class="msg-box">
+<ul class="chat-msg-info">
+<li>
+<div class="chat-time">
+Saba G <span>12:00 PM</span>
+</div>
+</li>
+</ul>
+<div>
+<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+</div>
+</div>
+</div>
+</li>
+<li class="media received">
+<div class="avatar person-view">
+A
+</div>
+<div class="media-body">
+<div class="msg-box">
+<ul class="chat-msg-info">
+<li>
+<div class="chat-time">
+Akshay <span>12:00 PM</span>
+</div>
+</li>
+</ul>
+<div>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+</div>
+</div>
+</div>
+</li>
+<li class="media sent">
+<div class="media-body">
+<div class="msg-box">
+<ul class="chat-msg-info">
+<li>
+<div class="chat-time">
+You <span>12:00 PM</span>
+</div>
+</li>
+</ul>
+<div>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="chat-footer">
+<div class="input-group">
+<input type="text" class="input-msg-send form-control" placeholder="Type Message...">
+<div class="input-group-append">
+<button type="button" class="btn msg-send-btn"><i class="fa fa-telegram-plane"></i></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="chat-cont-right invite-sidebar-right">
+<div class="chat-header">
+<div class="heading-text">Invite Someone</div>
+<a href="#" class="close-btn" id="InviteClose">
+<i class="feather-x"></i>
+</a>
+ </div>
+<div class="message-body">
+<div class="chat-body">
+<div class="chat-scroll">
+<ul class="add-list">
+<li class="add-listitem user-active">
+<div class="person-info">
+<img src="assets/img/video-call.jpg" alt="User Image" class="avatar-img">
+<div class="person-name">Shira</div>
+</div>
+<div class="list-body">
+<ul class="action-info">
+<li>
+<a href="#" class="mute-vid">
+<i class="feather-video"></i>
+</a>
+</li>
+<li>
+<a href="#" class="mute-mic voice-act">
+<i class="feather-mic"></i>
+</a>
+</li>
+</ul>
+</div>
+</li>
+<li class="add-listitem">
+<div class="person-info">
+<img src="assets/img/users/user-02.jpg" alt="User Image" class="avatar-img">
+<div class="person-name">Linnea</div>
+</div>
+<div class="list-body">
+<ul class="action-info">
+<li>
+<a href="#" class="mute-vid">
+<i class="feather-video"></i>
+</a>
+</li>
+<li>
+<a href="#" class="mute-mic">
+<i class="feather-mic"></i>
+</a>
+</li>
+</ul>
+</div>
+</li>
+<li class="add-listitem">
+<div class="person-info">
+<img src="assets/img/users/user-01.jpg" alt="User Image" class="avatar-img">
+<div class="person-name">Saba G</div>
+</div>
+<div class="list-body">
+<ul class="action-info">
+<li>
+<a href="#" class="mute-vid">
+<i class="feather-video"></i>
+</a>
+</li>
+<li>
+<a href="#" class="mute-mic">
+<i class="feather-mic"></i>
+</a>
+</li>
+</ul>
+</div>
+</li>
+<li class="add-listitem">
+<div class="person-info">
+<div class="person-view">A</div>
+<div class="person-name">Akshay</div>
+</div>
+<div class="list-body">
+<ul class="action-info">
+<li>
+<a href="#" class="mute-vid text-primary">
+<i class="feather-video-off"></i>
+</a>
+</li>
+<li>
+<a href="#" class="mute-mic">
+<i class="feather-mic"></i>
+</a>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="chat-footer d-grid">
+<button type="button" class="btn heading-text">Invite Someone</button>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
+
+<script src="{{url_for('static', filename='assets/js/jquery.js')}}"></script>
+<script src="{{url_for('static', filename='assets/js/script2.js')}}"></script>
+<script src="{{url_for('static', filename='assets/js/videoscript.js')}}"></script>
+
+</body></html>
