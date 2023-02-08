@@ -4,6 +4,7 @@ import mysql.connector
 import datetime
 import webbrowser
 import socket
+import json
 import sys
 import random
 import mysql.connector
@@ -24,7 +25,7 @@ app.secret_key = 'app@BlogSpot'
 
 
 def connector():
-	#"""
+	"""
 	db = mysql.connector.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
                      passwd="root",  # your password
@@ -40,7 +41,7 @@ def connector():
 		except Exception as e:
 			print(str(e))
 			pass
-	"""
+	#"""
 	if db == None:
 		raise "No connection"
 
@@ -402,6 +403,36 @@ def Api(mode):
 					db.commit()
 					db.close()
 			return msg
+	if mode == "updateProfile":
+		msg = "Unauthorised request"
+		if request.method == 'POST':
+			msg = "request not finished"
+			vals = request.form["data"]
+			vals = json.loads(vals)
+			
+			for val in vals:
+				try:
+					db = connector()
+					cur = db.cursor(buffered=True)
+					cur.execute("select key_ID from users where email_id=%s and name=%s",(session["rooms-user"],session["room-name"],))
+					key = cur.fetchone()
+					if key:
+						key = key[0]
+						cur.execute("update profile set {0}=%s where key_ID=%s".format(val["id"]),(val["value"],key,))
+						cur.execute("update profile_links set {0}=%s where key_ID=%s".format(val["id"]),(val["value"],key,))
+					msg = "success"
+				except Exception as e:
+					#print(str(e))
+					msg  = "An unexpected error occured"
+					db.rollback()
+					pass
+				finally:
+					msg = "success"
+					db.commit()
+					
+			
+			
+		return msg
 
 @app.route("/api/v/request/<mode>", methods=['GET', 'POST'])
 def ApiRoom(mode):
@@ -508,10 +539,28 @@ def ApiRoom(mode):
 	if mode == "checkMessage":
 		msg = "false"
 		active = request.args.get("active")
-		if active != None:
+		if active != None and session.get("room-name") != None and session.get("rooms-user") != None:
 			session["active"] = active
 			session["active-group"] = None
-			msg = "true"
+			msg = "Not Finished"
+			try:
+				db = connector()
+				cur = db.cursor(buffered=True)
+				cur.execute('SELECT key_ID FROM users WHERE email_id=%s and name=%s', (session["room-name"],session["rooms-user"], ))
+				usr = cur.fetchone()
+				cur.execute('SELECT key_ID FROM users WHERE email_id=%s or name=%s', (active,active, ))
+				act = cur.fetchone()
+				if usr and act:
+					cur.execute("update room_messages set is_read=1 where id=%s and reciever_id=%s",(usr[0],act[0],))
+				msg = "true"
+			except Exception as e:
+				db.rollback()
+				msg = "An unexpected error occured"
+				print(str(e))
+				pass
+			finally:
+				db.commit()
+				db.close()
 		"""
 		if session.get("room-name") != None and session.get("room-name") != "NULL" and session.get("rooms-user") != None:
 			user = session["room-name"]

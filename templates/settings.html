@@ -83,11 +83,28 @@ function getProfile(){
 	    });
 	
 }
-function getHeader(){
-	
-}
-function getMessager(){
-	
+
+function updateData(){
+	$.ajaxSetup({async: false});
+	let x = document.getElementById("general");
+	let ins = x.getElementsByTagName("input");
+	let vals = [];
+	for(let i=0;i<ins.length;i++){
+		y = ins[i].name;
+		z = ins[i].value;
+		
+		vals.push({
+			id: y,
+        		value: z
+		});
+	}
+	vals = JSON.stringify(vals);
+	let msg = $.post("/api/v1/request/updateProfile",{data:vals});
+	if(msg.responseText == "success"){
+		snackPop("Data updated successfully");
+	}else{
+		snackPop(msg.responseText);
+	}
 }
 </script>
 {%endblock%}

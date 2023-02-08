@@ -91,10 +91,10 @@
 <button class="btn newgroup_create btn-block d-block w-100" type="submit" onclick="return roomSignup('login')">Create Account</button>
 </div>
 </div>
-<div class="text-center dont-have">Already have an Account? <a href="{{url_for('rooms')}}">Login</a></div>
+<div class="text-center dont-have">Already have an Account? <a href="{{url_for('rooms')}}?login">Login</a></div>
 </div>
 <div class="back-btn-col text-center">
-<a href="index.html"><span><i class="fas fa-caret-left"></i></span> Back</a>
+<a href="{{url_for('rooms')}}"><span><i class="fas fa-caret-left"></i></span> Back</a>
 </div>
 </div>
 

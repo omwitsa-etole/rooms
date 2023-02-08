@@ -10,7 +10,7 @@
 <h4>PROFILE</h4>
  </div>
 <div class="btn-section">
-<button class="btn logout-btn">Sign out</button>
+<button class="btn logout-btn" onclick="location.href='{{url_for("logout")}}'">Sign out</button>
 </div>
 </div>
 
@@ -180,20 +180,20 @@ Update Profile
 <div class="col-md-6 col-xl-4">
 <div class="form-group">
 <label>Phone Number</label>
-<input class="form-control form-control-lg group_formcontrol" name="phone-number" type="text" value="{{user[4]}}">
+<input class="form-control form-control-lg group_formcontrol"  type="text" value="{{user[4]}}" name="phone">
 </div>
 </div>
 <div class="col-md-6 col-xl-4">
 <div class="form-group">
 <label>Username <span class="">(*)</span></label>
-<input value="{{user[2]}}" class="form-control form-control-lg group_formcontrol" type="text" disabled>
+<input value="{{user[2]}}" class="form-control form-control-lg group_formcontrol" type="text" name="username" disabled>
 </div>
 </div>
 <div class="col-md-6 col-xl-4">
 <div class="form-group">
 <label>Choose profile picture</label>
 <div class="custom-input-file form-control form-control-lg group_formcontrol">
-<input type="file" class="">
+<input type="file" class="" name="profile">
 <span class="browse-btn">Browse File</span>
 </div>
 </div>
@@ -201,13 +201,13 @@ Update Profile
 <div class="col-md-6 col-xl-4">
 <div class="form-group">
 <label>Location</label>
-<input class="form-control form-control-lg group_formcontrol" name="location" type="text" value="{{user[7]}}">
+<input class="form-control form-control-lg group_formcontrol" name="country" type="text" value="{{user[7]}}">
 </div>
 </div>
 <div class="col-md-12 col-xl-12">
 <div class="form-group">
 <label>Bio</label>
-<textarea class="form-control form-control-lg group_formcontrol" value="{{user[5]}}"></textarea>
+<input class="form-control form-control-lg group_formcontrol" value="{{user[5]}}" name="bio" style="width: 100%;"></textarea>
 </div>
 </div>
 </div>
@@ -226,7 +226,7 @@ Update Profile
 </div>
 <div class="col-md-6 col-xl-4">
 <div class="form-group">
-<input class="form-control form-control-lg group_formcontrol" name="twitter" type="text" placeholder="Twitter Link" value="{{links[2]}}">
+<input class="form-control form-control-lg group_formcontrol" name="twitter" type="text" placeholder="Twitter Link" value="{{links[2]}}" >
 </div>
 </div>
 <div class="col-md-6 col-xl-4">
@@ -247,7 +247,7 @@ Update Profile
 </div>
 <div class="form-row profile_form m-0 align-items-center">
 <div class="me-4">
-<button type="button" class="btn btn-update  mb-0">
+<button type="button" class="btn btn-update  mb-0" onclick="updateData()">
 Update Details
 </button>
 </div>
@@ -474,3 +474,4 @@ Update Password
 
 </div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 428.147px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
 </div>
+
