@@ -295,17 +295,21 @@ def Api(mode):
 					except:
 						pass
 				cur = db.cursor(buffered=True)
-
-				cur.execute('SELECT * FROM rooms WHERE email_id=%s and verification=%s', (email, code, ))
-				exists = cur.fetchone()
-				if exists:
-					
-					session["loggedin"] = "user"
-					session["rooms-user"] = exists[0]
-					session["room-name"] = exists[3]
-					return "success"
+				cur.execute('select * from users where email_id=%s',(email,))
+				usr = cur.fetchone()
+				if usr:
+					cur.execute('SELECT * FROM rooms WHERE email_id=%s and verification=%s', (email, code, ))
+					exists = cur.fetchone()
+					if exists:
+						
+						session["loggedin"] = "user"
+						session["rooms-user"] = exists[0]
+						session["room-name"] = exists[3]
+						return "success"
+					else:
+						return "Code not valid"
 				else:
-					return "Code not valid"
+					return "Email id not registered, signup to continue"
 			except Exception as e:
 				msg = "Error occured during transaction"
 				db.rollback()
