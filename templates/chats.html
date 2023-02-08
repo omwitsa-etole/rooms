@@ -2,10 +2,10 @@
 <div class="left-chat-title d-flex justify-content-between align-items-center ps-0 pe-0">
 <div class="chat-title">
 
-<h4>Recent Chats</h4>
+<h4 id="ht">Recent Chats</h4>
 </div>
-<div class="add-section">
-<a href="#" data-bs-toggle="modal" data-bs-target="#contact-list"><i class="fa fa-address-book"></i></a>
+<div class="add-section" id="ha">
+<a href="#"  data-bs-toggle="modal" data-bs-target="#contact-list"><i class="fa fa-address-book"></i></a>
 </div>
 </div>
 
@@ -15,5 +15,9 @@
 <script>
 $(document).ready(function(){
 	$("#load-chats").load("/api/v/request/loadmessages");
+	if(location.search.includes("groups")){
+		document.getElementById("ht").innerText = "New Status Updates";	
+		
+	}
 })
 </script>

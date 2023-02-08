@@ -12,20 +12,27 @@
 }
 </style>
 <script src="{{url_for('static', filename='assets/js/jquery.js')}}"></script>
+
 <div id="not-online" style="visibility:hidden"></div>
 <div id="ss" style="position:relative;width:100%;">
-
+<div id="room-loader" class="room-loader"></div>
 </div>
 <script>
 $(document).ready(function(){
-	getProfile()
-	$("#ss").load("/api/v/request/getProfile");
-	setInterval(loadchats, 3000);
+	getProfile();
+	
+	setInterval(loadchats, 5000);
 })
+function support(){
+	location.hash = "support";
+	document.getElementById("help-support").click();
+	$("#support-load").load("/api/v/request/loadsupport");
+}
 function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
    }
 function loadchats(){
+	
 	if(location.hash.includes("archived")){
 		$("#load-chats").load("/api/v/request/loadmessages?archived");
 		getArchived('true');
@@ -60,27 +67,20 @@ function loadchats(){
 }
 
 function getProfile(){
-	`
-	try{
-		document.getElementById("ss").innerHTML = "loading";
-	}catch(err){
-		console.log(err);
-		setTimeout(getProfile,2500);
-	}
-	fetch("/api/v/request/getProfile")
-		    .then(function(response) {
-			return response.text()
-			hideloader();
-		    })
-		    .then(function(html) {    
-			document.getElementById("ss").innerHTML = html;
-			
-		    })
-		    .catch(function(err) {  
-			console.log(err);
-			  
-		    });
-	`;
+	fetch('/api/v/request/getProfile')
+	    .then(function(response) {
+		return response.text()
+	    })
+	    .then(function(html) {    
+		document.getElementById("ss").innerHTML = html;
+		document.getElementById("room-loader").style.display="none";
+		
+	    })
+	    .catch(function(err) {  
+		//document.getElementById("room-loader").innerHTML = "<p>An error ouccured<br><a onclick='location.reload()'>Reload</a></p>";
+		console.log('Failed to fetch page: ', err);
+		  
+	    });
 	
 }
 function getHeader(){

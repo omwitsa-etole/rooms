@@ -1,5 +1,29 @@
 {%extends 'index.html'%}
 {%block content%}
+<style>
+.btm{
+	width: 100%;
+	height: 70px;
+	text-align:center;
+	margin-top: 7%;
+}
+.btm a{
+	height: 98%;
+	width: 33%;
+	border-radius: 50%;
+	cursor:pointer;
+	margin-left: 15px;
+}
+</style>
+<div class="not-online" id="not-online">
+<div class="not-l"></div>
+<div class="not-r">
+<div ><h6>Computer not connected</h6></div>
+<div>Make sure your computer has an active Internet connection. </div>
+<span><a href="#">Reconnect</a></sapn>
+</div>
+</div>
+
 <div class="sidebar-group left-sidebar chat_sidebar" id="view-status">
 
 <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 690px;"><div id="chats" class="left-sidebar-wrap sidebar active slimscroll" style="overflow: hidden; width: 100%; height: 690px;">
@@ -11,26 +35,29 @@
 </div>
 <div class="add-section">
 <ul>
-<li><a href="#" data-bs-toggle="modal" onclick="addStatus()"><span class="material-icons" ><i class="fa fa-file" aria-hidden="true"></i></span></a></li>
+<li><a href="#" data-bs-toggle="modal" data-bs-target="#status-settings"><span class="material-icons" ><i class="fa fa-gear" aria-hidden="true"></i></span></a></li>
 </ul>
 </div>
 </div>
 
 <div class="search_chat has-search mb-0">
 <span class="fas fa-search form-control-feedback" aria-hidden="true"></span>
-<input class="form-control chat_input" id="search-contacts" type="text" placeholder="Search Contacts">
+<input class="form-control chat_input" id="search-status-contacts" type="text" placeholder="Search Contacts" onkeyup="filterChat('status')">
 </div>
-<div class="sidebar-body" id="chatsidebar" style="height: 70%;overflow: auto;">
+<div class="sidebar-body" id="chat-sidebar" style="height: 70%;overflow: auto;">
 
 <div class="left-chat-title d-flex justify-content-between align-items-center pl-0 pr-0">
 <div class="chat-title">
 <h4>Recent STATUS</h4>
 </div>
+<div class="add-section">
+<a href="#"  data-bs-toggle="modal" data-bs-target="#add-status"><i class="fa fa-plus"></i></a>
+</div>
 </div>
 
 <ul class="user-list mt-2">
-<li class="user-list-item">
-<a href="#" class="d-flex" data-bs-toggle="modal" data-bs-target="#status-modal">
+<li class="user-list-item" data-bs-toggle="modal" data-bs-target="#status-modal">
+<a href="#status" class="d-flex" >
 <div class="avatar avatar-online">
 <img src="avatar.jpg" class="rounded-circle" alt="image">
 </div>
@@ -52,8 +79,7 @@
 </div>
 
 <ul class="user-list mt-2">
-<li class="user-list-item">
-<a href="#" class="d-flex w-100" data-bs-toggle="modal" onclick="viewStatus()">
+<li class="user-list-item" data-bs-toggle="modal" data-bs-target="#status-modal">
 <div>
 <div class="avatar avatar-away">
 <img src="avatar.jpg" class="rounded-circle" alt="image">
@@ -65,7 +91,6 @@
 <p>8 min ago</p>
 </div>
 </div>
-</a>
 </li>
 
 </ul>
@@ -83,6 +108,222 @@
 </div>
 </div>
 
+<div class="modal fade" id="new-status" style="position: absolute;resize:auto;">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">
+<span class="material-icons"><i class="fa fa-plus" aria-hidden="true"></i></span>New Status
+</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+ <span class="material-icons"><i class="fa fa-times" aria-hidden="true"></i></span>
+</button>
+</div>
+<div class="modal-body">
 
+<div id="status-load"  class="chat-body" style="height: 350px;min-height: 350px;overflow: auto;">
+
+<div class="room-loader" id="status-loader" ></div>
+</div>
+
+
+
+
+<div class="form-row profile_form text-end float-end m-0 align-items-center">
+
+<div class="cancel-btn me-4">
+<a style="display:none;" data-bs-dismiss="modal" aria-label="Close" id="close-s"></a>
+<a href="javascript:void(0)" onclick="checkLive()" >Cancel</a>
+</div>
+<div class="">
+<button type="button" class="btn btn-block newgroup_create mb-0" >
+Done
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal status-modal fade" id="status-modal" style="display: none;" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="inner-popup" >
+<div id="carouselIndicators" class="carousel slide slider" data-bs-ride="carousel" >
+<div class="close custom-status-close" data-bs-dismiss="modal"><span class="material-icons"><i class="fa fa-times"></i></span></div>
+<ol class="carousel-indicators" style="display:flex;flex-direction:row;flex-wrap:nowrap;">
+<li data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="" ></li>
+<li data-bs-target="#carouselIndicators" data-bs-slide-to="1" class="active" aria-current="true"></li>
+<li data-bs-target="#carouselIndicators" data-bs-slide-to="2" class=""></li>
+<div class="carousel-inner status_slider" role="listbox">
+<div class="carousel-item">
+<img src="avatar.jpg" alt="">
+<div class="status-text">
+<p>If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual.</p>
+</div>
+</div>
+<div id="target" class="carousel-item active">
+<img src="avatar.jpg" alt="">
+<div class="status-text">
+<p>If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual.</p>
+</div>
+</div>
+<div class="carousel-item">
+<img src="avatar.jpg" alt="">
+<div class="status-text">
+ <p>If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual.</p>
+</div>
+</div>
+
+</div>
+<a class="carousel-control-prev" href="#carouselIndicators" role="button" data-bs-slide="prev">
+<span class="carousel-control-prev-icon" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+<span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="#carouselIndicators" role="button" data-bs-slide="next">
+<span class="carousel-control-next-icon" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+<span class="sr-only">Next</span>
+</a>
+</div>
+<div class="bottom-message-col chat" >
+<div class="chat-footer p-0" style="position: absolute;bottom: 5%;width: 80%;left: 10%;">
+<form>
+<div class="smile-col">
+<a href="#"><i class="far fa-smile"></i></a>
+</div>
+<div class="attach-col">
+<a href="#"><i class="fas fa-paperclip"></i></a>
+</div>
+<input type="text" class="form-control chat_form" placeholder="Enter Message.....">
+<div class="form-buttons">
+<button class="btn send-btn" type="submit">
+<span class="material-icons">send</span>
+</button>
+</div>
+<div class="specker-col">
+<a href="#"><span class="material-icons"><i class="fa fa-microphone"></i></span></a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<style>
+
+</style>
+<div class="modal  fade" id="status-settings" style="display: none;" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content" style="height: 600px;">
+<div class="modal-header">
+<h5 class="modal-title">
+<span class="material-icons"><i class="fa fa-gear" aria-hidden="true"></i></span>Status Settings
+</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+ <span class="material-icons"><i class="fa fa-times" aria-hidden="true"></i></span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+
+
+<script>
+
+function statusUpdate(x){
+	document.getElementById("new-s").click();
+	switch(x){
+		case 0:
+			textUpdate();
+			break;
+		case 1:
+			camUpdate();
+			break;
+		case 2:
+			videoUpdate();
+			break;
+		default:
+			snackPop("An error occured");
+			break;
+	}
+}
+function videoUpdate(){
+	document.getElementById("status-loader").style.display='none';
+	elm = document.getElementById("status-load");
+	elm.innerHTML = `
+		<video style="width: 100%;height: 98%;border-radius: 10px;" autoplay id="status-player"></video>
+	`;
+	camStream();
+}
+function camUpdate(){
+	document.getElementById("status-loader").style.display='none';
+	elm = document.getElementById("status-load");
+	elm.innerHTML = `
+		<video style="width: 100%;height: 70%;border-radius: 10px;" autoplay id="status-player"></video><br><div class="btm"><a href="javascript:void(0)" onclick="takeSnap(this)"><i class="fa fa-camera fa-4x"></i></a></div>
+	`;
+	camStream();
+}
+function camStream(){
+	
+	const video = document.getElementById("status-player");
+	let constraints = {
+	  video: true,
+
+	};
+	navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+	  
+	  video.srcObject = stream;
+	  
+	});
+}
+function takeSnap(elm){
+	if(elm.innerHTML.includes("camera")){
+		elm.parentElement.innerHTML = `<a href="javascript:void(0)" onclick="takeSnap(this)"><i class="fa fa-times fa-4x"></i></a>`;
+	}else{
+		elm.parentElement.innerHTML = `<a href="javascript:void(0)" onclick="takeSnap(this)"><i class="fa fa-camera fa-4x"></i></a>`;	
+	}
+}
+function checkLive(){
+	document.getElementById("status-player").remove();
+	document.getElementById("status-loader").style.display='block';
+	navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+	    
+	    stream.getTracks().forEach(function(track) {
+		    track.stop();
+	    });
+	});
+	
+	document.getElementById("close-s").click();
+}
+function stopBothVideoAndAudio(stream) {
+    stream.getTracks().forEach(function(track) {
+            track.stop();
+    });
+}
+
+// stop only camera
+function stopVideoOnly(stream) {
+    stream.getTracks().forEach(function(track) {
+        if (track.readyState == 'live' && track.kind === 'video') {
+            track.stop();
+        }
+    });
+}
+
+// stop only mic
+function stopAudioOnly(stream) {
+    stream.getTracks().forEach(function(track) {
+        if (track.readyState == 'live' && track.kind === 'audio') {
+            track.stop();
+        }
+    });
+}
+</script>
 
 {%endblock%}

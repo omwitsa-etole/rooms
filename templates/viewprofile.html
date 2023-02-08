@@ -1,4 +1,5 @@
 <div class="right-sidebar-wrap active"  style="height: 100%;">
+{%if x["success"]%}
 <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div class="slimscroll" style="overflow: auto; width: 100%; height: 100%;">
 <div class="left-chat-title d-flex justify-content-between align-items-center p-3">
 <div class="chat-title">
@@ -17,7 +18,7 @@
 <figure class="avatar avatar-xl mb-3">
 <img src="avatar.jpg"  class="rounded-circle" alt="image">
 </figure>
-<h5 class="profile-name">{{user[2]}}</h5>
+<h5 class="profile-name">{{x["username"]}}</h5>
 <div class="online-profile">
 <span>online</span>
 </div>
@@ -27,7 +28,7 @@
 <nav>
 <div class="nav nav-tabs justify-content-center" id="nav-tab">
 <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#about">About</a>
-{%if usr!= None%}
+{%if x["profile"] == 1%}
 <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#media">Media</a>
 {%endif%}
 </div>
@@ -35,34 +36,34 @@
 <div class="tab-content" id="nav-tabContent">
 <div class="tab-pane fade show active" id="about">
 <h6>About</h6>
-<p>{{user[5]}}</p>
+<p>{{x["about"]}}</p>
 <div class="member-details">
 <ul>
 <li>
 <h6>Phone</h6>
-<span>{{user[4]}}</span>
+<span>{{x["phone"]}}</span>
 </li>
 <li>
 <h6>Username</h6>
-<span>{{user[2]}}</span>
+<span>{{x["username"]}}</span>
 </li>
 <li>
 <h6>Email</h6>
-<span>{{user[1]}}</span>
+<span>{{x["email"]}}</span>
 </li>
 </ul>
 </div>
 <div class="social-media-col">
 <h6>Social media accounts</h6>
 <ul>
-<li><a href={{links[1]}} target="_blank"><i class="fa fa-facebook-f"></i></a></li>
-<li><a href={{links[2]}} target="_blank"><i class="fa fa-twitter"></i></a></li>
-<li><a href={{links[5]}} target="_blank"><i class="fa fa-youtube"></i></a></li>
- <li><a href={{links[3]}} target="_blank"><i class="fa fa-instagram"></i></a></li>
-<li><a href={{links[4]}} target="_blank"><i class="fa fa-linkedin-in"></i></a></li>
+<li><a href={{x["facebook"]}} target="_blank"><i class="fa fa-facebook-f"></i></a></li>
+<li><a href={{x["twitter"]}} target="_blank"><i class="fa fa-twitter"></i></a></li>
+<li><a href={{x["youtube"]}} target="_blank"><i class="fa fa-youtube"></i></a></li>
+ <li><a href={{x["instagram"]}} target="_blank"><i class="fa fa-instagram"></i></a></li>
+<li><a href={{x["linkedin"]}} target="_blank"><i class="fa fa-linkedin-in"></i></a></li>
 </ul>
 </div>
-{%if usr != None%}
+{%if x["profile"] == 1%}
 <div class="settings-col">
 <h6>Settings</h6>
 <ul>
@@ -194,4 +195,5 @@ Edit Profile
 {%endif%}
 </div>
 </div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+{%endif%}
 </div>

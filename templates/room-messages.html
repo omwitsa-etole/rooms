@@ -1,4 +1,4 @@
-
+{%if message["success"]%}
 {%if session.get("active") == None and session.get("active-group") == None%}
 <div class="chat d-flex align-items-center justify-content-center">
 <div class="status-right">
@@ -11,7 +11,7 @@
 </div>
 {%endif%}
 {%if session.get("active") != None%}
-{% for message in messages %}
+{% for message in message["data"]%}
 	{%if message[3] != 'deleted'%}
 	{% set fernet = Fernet(message[5])%}
 	{% set msg = fernet.decrypt(message[3]).decode()%}
@@ -88,7 +88,7 @@
 {%endfor%}
 {%else%}
 <div class="messages" id="msgs" style="width: 100%;">
-{%for message in messages%}
+{%for message in message["data"]%}
 {% set fernet = Fernet(message[4])%}
 {% set m = fernet.decrypt(message[2]).decode()%}
 
@@ -160,4 +160,5 @@
 {%endif%}
 {%endfor%}
 </div>
+{%endif%}
 {%endif%}

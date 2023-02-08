@@ -1,22 +1,28 @@
 
-{%if session.get("groups") == None%}
+{%if session.get("groups") == None and session.get("status") == None%}
 <ul class="user-list mt-2" style="height: 70%;overflow: auto;">
 {% set shown = []%}
+
 {%if chats == None%}
 {% for message in messages%}
+	{%set count = 0%}
 	{%if message[3] != 'deleted'%}
 	{%set pos=messages.index(message)%}
 	{% if message[9] != 1 and message[0] == eid[0] or  message[6] == eid[0] %}
 	
 			{%if message[6] not in shown%}
+				
+				{%if message[7] == 0 or message[7] == '0'%}
+					{%set count = count + 1%}
+				{%endif%}
 				{%if message[3] != 'deleted'%}
 				{% set fernet = Fernet(message[5])%}
 				{% set msg = fernet.decrypt(message[3]).decode()%}
 				{%else%}
 				{%set msg = 'This Message has been deleted'%}
 				{%endif%}
-				<a style="display: none;">{{ shown.append(message[6]) }}</a>
-				<a style="display: none;">{{ shown.append(message[0]) }}</a>
+				{% set shown = shown.append(message[6]) %}
+				
 				{%if get_users[pos][1] == session["room-name"]%}
 					<li class="user-list-item" id="{{get_users[pos][0]}}" onclick="activateRoom(this.id)">
 					<div class="avatar avatar-online">
@@ -39,7 +45,9 @@
 				</div>
 				<div class="last-chat-time">
 				<small class="text-muted">{{message[4]}}</small>
-				<div class="new-message-count">11</div>
+				{%if count > 0%}
+					<div class="new-message-count">{{count}}</div>
+				{%endif%}
 				</div>
 				</div>
 				</li>
@@ -124,7 +132,7 @@
 --------->
 </ul>
 {%endif%}
-{%if session.get("groups") !=None%}
+{%if session.get("groups") !=None and session.get("status") == None%}
 <ul class="user-list mt-2">
 {%if mn ==0%}
 <li class="user-list-item" >

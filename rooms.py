@@ -40,7 +40,7 @@ def connector():
 		except Exception as e:
 			print(str(e))
 			pass
-#	"""
+	#"""
 	if db == None:
 		raise "No connection"
 
@@ -154,13 +154,15 @@ def Api(mode):
 						except:
 							pass
 					cur = db.cursor(buffered=True)
-					cur.execute("select message from room_messages where ind=%s",(index,))
+					cur.execute("select key_ID from users where email_id=%s and name=%s",(session["rooms-user"],session["room-name"],))
+					key_ID = cur.fetchone()[0]
+					cur.execute("select message from room_messages where ind=%s and reciever_id=%s or id=%s",(index,key_ID,key_ID,))
 					mess = cur.fetchone()
 					if mess[0] == "deleted":
-						cur.execute("delete from room_messages where ind=%s",(index,))
+						cur.execute("delete from room_messages where ind=%s and reciever_id=%s or id=%s",(index,key_ID,key_ID,))
 						msg = "successfull"
 					else:
-						cur.execute("update room_messages set message='deleted' where ind=%s", (index,))
+						cur.execute("update room_messages set message='deleted' where ind=%s and reciever_id=%s or id=%s", (index,key_ID,key_ID,))
 						msg = "success"
 				except Exception as e:
 					msg = "An error occured during the transaction"
@@ -610,7 +612,10 @@ def ApiRoom(mode):
 					db.close()
 		return render_template("load-messages.html", Fernet=Fernet, **locals())
 	if mode == "loadroom":
+		pass
+	if mode == "load-room":
 		ddate = date.today()
+		x = {"success": False}
 		if session.get("room-name") != None and session.get("room-name") != "NULL":
 			n = 0
 			if session.get("active") != None:
@@ -635,7 +640,7 @@ def ApiRoom(mode):
 							cur.execute('SELECT * FROM room_messages WHERE id=%s and reciever_id=%s or id=%s and reciever_id=%s', (eid[0], eiid[0], eiid[0], eid[0], ))
 							messages = cur.fetchall()
 					n = len(messages)
-					
+					x = {"success":True,"data":messages}
 				except Exception as e:
 					db.rollback()
 					print(str(e))
@@ -660,14 +665,14 @@ def ApiRoom(mode):
 					cur.execute('SELECT * FROM group_messages WHERE id=%s', (group, ))
 					messages = cur.fetchall()
 					n = len(messages)
-					
+					x = {"success":True,"data":messages}
 				except Exception as e:
 					db.rollback()
 					print(str(e))
 					pass
 				finally:
 					db.close()
-			return render_template("room-messages.html", Fernet=Fernet, **locals())
+			return x
 	if mode == "sendmessage":
 		
 		if session.get('room-name') != None or session.get('room-name') != "NULL" and session.get('rooms-user') != None :
@@ -697,13 +702,13 @@ def ApiRoom(mode):
 							cur.execute('SELECT * FROM users WHERE email_id=%s and name=%s', (session["rooms-user"], user, ))
 							userss = cur.fetchone()
 							if userss:
-								cur.execute("select archived from room_messages where id=%s and reciever_id=%s",(userss[0],users[0],))
+								cur.execute("select archived from room_messages where id=%s and reciever_id=%s and archived=1 or archived='1'",(userss[0],users[0],))
 								arch = cur.fetchone()
 								if arch:
-									if arch[0] == '1' or arch[0] == 1:
-										cur.execute('INSERT INTO room_messages (id, from_user,to_user,message, dkey, reciever_id,archived) VALUES(%s, %s,%s,%s, %s, %s,%s)', (userss[0], userss[0], users[0], encMessage, key, users[0], '1',))
-									else:
-										cur.execute('INSERT INTO room_messages (id, from_user, to_user, message, dkey, reciever_id) VALUES(%s, %s, %s, %s, %s, %s)', (userss[0], userss[0], users[0], encMessage, key, users[0], ))	
+									
+									cur.execute('INSERT INTO room_messages (id, from_user,to_user,message, dkey, reciever_id,archived) VALUES(%s, %s,%s,%s, %s, %s,%s)', (userss[0], userss[0], users[0], encMessage, key, users[0], '1',))
+								else:
+									cur.execute('INSERT INTO room_messages (id, from_user, to_user, message, dkey, reciever_id) VALUES(%s, %s, %s, %s, %s, %s)', (userss[0], userss[0], users[0], encMessage, key, users[0], ))	
 								
 								
 								msg = "success"
@@ -721,7 +726,7 @@ def ApiRoom(mode):
 						db.commit()
 						db.close()
 				
-				if "succ" in msg and receiver != None:
+				if msg == "success" and receiver != None:
 					try:
 						while True:
 							try:
@@ -814,6 +819,7 @@ def ApiRoom(mode):
 	if mode == "loadprofile":
 		mine = request.args.get("mine")
 		usr= request.args.get("user")
+		x = {"success": False}
 		if usr != None:
 			if session.get("active") != None:
 				email = session["active"]
@@ -830,10 +836,13 @@ def ApiRoom(mode):
 					if user:
 						cur.execute('SELECT * FROM profile_links WHERE key_ID=%s', (user[0], ))
 						links = cur.fetchone()
+					x = {"success":True,"profile": 1,"username": user[2],"last_online":"","about":user[5],"phone":user[4],"email":user[1],"facebook":links[1],"twitter":links[2],"instagram":links[3],"linkedin":links[4],"youtube":links[5],}
+					return render_template("viewprofile.html",x=x)
 				except:
 					pass
 				finally:
 					db.close()
+				
 		else:
 			if session.get("rooms-user") != None:
 				email = session["rooms-user"]
@@ -850,12 +859,15 @@ def ApiRoom(mode):
 					if user:
 						cur.execute('SELECT * FROM profile_links WHERE key_ID=%s', (user[0], ))
 						links = cur.fetchone()
+					x = {"success":True,"profile": 0,"username": user[2],"last_online":"","about":user[5],"phone":user[4],"email":user[1],"facebook":links[1],"twitter":links[2],"instagram":links[3],"linkedin":links[4],"youtube":links[5],}
+					return render_template("viewprofile.html",x=x)
 				except:
 					pass
 				finally:
 					db.close()
+				
+		return x
 		
-		return render_template("viewprofile.html", **locals())
 	if mode=="getProfile":
 		if session.get("rooms-user") != None:
 			email = session["rooms-user"]
@@ -1059,19 +1071,25 @@ def logout():
 def rooms():
 	signup = request.args.get("signup")
 	password = request.args.get("forgot-password")
+	loadroom = request.args.get("loadroom")
 	if signup != None:
 		return render_template("signup.html")
 	if password != None:
 		return render_template("forgot-password.html")
 	if session.get("rooms-user") == None and session.get("room-name") == None:
 		return render_template("login.html")
+	message = ApiRoom("load-room")
 	
+	if loadroom !=None:
+		
+		return render_template("room-messages.html",message=message,Fernet=Fernet)
 	chats = request.args.get("chats")
 	groups = request.args.get("groups")
 	status = request.args.get("status")
 	settings = request.args.get("settings")
 	calls = request.args.get("calls")
 	index = request.args.get("index")
+	session["status"] = None
 	if session.get("rooms-user") != None and session.get("room-name") != None:
 		alphabet = ['A','B', 'C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 		email = session["rooms-user"]
@@ -1127,6 +1145,7 @@ def rooms():
 				db.close()
 		return render_template("groups.html",Fernet=Fernet, **locals())
 	if status != None:
+		session["status"] = True
 		return render_template("status.html",**locals())
 	if settings != None:
 		email = session["rooms-user"]
