@@ -245,7 +245,7 @@ def Api(mode):
 		if request.method == 'POST' and 'email' in request.form and 'code' in request.form:
 			email = request.form["email"]
 			code = request.form["code"]
-			
+			newcode = reandom.randint(5436281,42315163)
 			if email == "" or code == "":
 				return "Invalid values"
 			try:
@@ -261,7 +261,7 @@ def Api(mode):
 				exists = cur.fetchone()
 				
 				if exists:
-					cur.execute("update rooms set verification='' WHERE email_id=%s and verification=%s",(email,code,))
+					cur.execute("update rooms set verification=%s WHERE email_id=%s and verification=%s",(str(newcode),email,code,))
 					cur.execute('INSERT INTO users (key_ID, email_id, name) VALUES(%s, %s, %s)', (exists[4], exists[0], exists[3], ))
 					cur.execute("insert into profile (key_ID,email_id,name) VALUES(%s, %s, %s)",(exists[4], exists[0], exists[3], ))
 					cur.execute("insert into profile_links (key_ID) values(%s)",(exists[4],))
@@ -1125,7 +1125,7 @@ def rooms():
 	signup = request.args.get("signup")
 	password = request.args.get("forgot-password")
 	loadroom = request.args.get("loadroom")
-	if to_conn = request.args.get("connect")
+	to_conn = request.args.get("connect")
 	if signup != None:
 		if to_conn:
 			try:
