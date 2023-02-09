@@ -1125,7 +1125,22 @@ def rooms():
 	signup = request.args.get("signup")
 	password = request.args.get("forgot-password")
 	loadroom = request.args.get("loadroom")
+	if to_conn = request.args.get("connect")
 	if signup != None:
+		if to_conn:
+			try:
+				db = connector()
+				cur = db.cursor(buffered=True)
+				cur.execute("select * from users where email_id=%s or name=%s",(to_conn,to_conn,))
+				exs = cur.fetchone()	
+				if exs:
+					session["active"] = to_conn
+			except:
+				db.rollback()
+				pass
+			finally:
+				db.commit()
+				db.close()
 		return render_template("signup.html")
 	if password != None:
 		return render_template("forgot-password.html")
