@@ -1149,8 +1149,17 @@ def rooms():
 	message = ApiRoom("load-room")
 	
 	if loadroom !=None:
-		
-		return render_template("room-messages.html",message=message,Fernet=Fernet)
+		try:
+			db = connector()
+			cur = db.cursor(buffered=True)
+			cur.execute("select * from users where email_id=%s and name=%s",(session["rooms-user"],session["room-name"],))
+			active_user = cur.fetchone()
+		except:
+			db.rollback()
+			pass
+		finally:
+			db.close()
+		return render_template("room-messages.html",message=message,active=active_user,Fernet=Fernet)
 	chats = request.args.get("chats")
 	groups = request.args.get("groups")
 	status = request.args.get("status")

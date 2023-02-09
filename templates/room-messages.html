@@ -19,8 +19,8 @@
 	{%else%}
 	{%set msg = 'This Message has been deleted'%}
 	{%endif%}
-	{% if message[2] == session["room-name"]%}
-		<div class="chats" id="message-{{message[8]}}" style="position: relative;">
+	{% if message[0] == active%}
+		<div class="chats chats-right" id="message-{{message[8]}}" style="position: relative;">
 		<div class="chat-avatar">
 		<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"  class="rounded-circle dreams_chat">
 		</div>
@@ -51,7 +51,7 @@
 		</div>
 		</div>
 	{%else%}
-		<div class="chats chats-right" id="message-{{message[8]}}" style="position: relative;">
+		<div class="chats" id="message-{{message[8]}}" style="position: relative;">
 		<div class="chat-avatar">
 		<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"  class="rounded-circle dreams_chat">
 		</div>
