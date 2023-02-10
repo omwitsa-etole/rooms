@@ -245,7 +245,7 @@ def Api(mode):
 		if request.method == 'POST' and 'email' in request.form and 'code' in request.form:
 			email = request.form["email"]
 			code = request.form["code"]
-			newcode = reandom.randint(5436281,42315163)
+			newcode = random.randint(5436281,42315163)
 			if email == "" or code == "":
 				return "Invalid values"
 			try:
@@ -296,7 +296,7 @@ def Api(mode):
 					except:
 						pass
 				cur = db.cursor(buffered=True)
-				cur.execute('select * from users where email_id=%s',(email,))
+				cur.execute('select * from rooms where email_id=%s',(email,))
 				usr = cur.fetchone()
 				if usr:
 					cur.execute('SELECT * FROM rooms WHERE email_id=%s and verification=%s', (email, code, ))

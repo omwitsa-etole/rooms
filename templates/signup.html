@@ -49,6 +49,17 @@
   from {right: 50px; opacity: 1;}
   to {right: 0; opacity: 0;}
 }
+@media only screen and (max-width: 800px) {
+.login-left{
+	position: absolute;
+	width: 90%;
+	z-index: 2;
+}
+.login-right{
+	width: 100%;
+}
+label{color: black;font-size: 19px;}
+}
 </style>
 </head>
 <body class="account-page">
@@ -150,7 +161,7 @@ Close
 </div>
 
 <label class="custom-check d-flex flex-wrap ps-0 mt-3">
-Didnt recieve OTP ? <a href=javascript:void(0)" onclick="roomSignup('code')" class="ms-1" > Resend OTP.</a>
+Didnt recieve OTP ? <a href=javascript:void(0)" onclick="getCode()" class="ms-1" > Resend OTP.</a>
 </label>
 <div class="text-center">
 <button type="submit"onsubmit="return roomLogin()" class="btn newgroup_create btn-block d-block w-100" >Enter</button>
@@ -174,6 +185,23 @@ Didnt recieve OTP ? <a href=javascript:void(0)" onclick="roomSignup('code')" cla
 
 </body>
 <script>
+function getCode(){
+	$.ajaxSetup({async: false});
+	var email = document.getElementById("email").value;
+	if(email.length > 0){
+		let msg = $.post("/api/v1/request/getCode", {key: "email",email: email});
+		if(msg.responseText == "success"){
+			snackPop("A verification code has been sent to email");
+			
+			document.getElementById("msg").innerText = "Code Resent"		
+			
+		}else{
+			snackPop(msg.responseText);			
+		}	
+	}else{
+		snackPop("Email Field required");
+	}
+}
 function roomSignup(mode){
 	$.ajaxSetup({async: false});
 	var uname=document.getElementById("username").value;
@@ -202,11 +230,11 @@ function roomLogin(){
 		return false;
 	}
 	if(code.length > 0){
-		let msg = $.post("/api/v1/request/login", {key: "email",email: email,code:code});
+		let msg = $.post("/api/v1/request/verify", {key: "email",email: email,code:code});
 		if(msg.responseText == "success"){
 			snackPop("Login Successfull");
 			location.search = "";
-			location.reload();
+			location.url = "/";
 		}else{
 			snackPop(msg.responseText);			
 		}
