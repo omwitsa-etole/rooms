@@ -1154,7 +1154,7 @@ def rooms():
 			db = connector()
 			cur = db.cursor(buffered=True)
 			cur.execute("select * from users where email_id=%s and name=%s",(session["rooms-user"],session["room-name"],))
-			active_user = cur.fetchone()
+			active_user = cur.fetchone()[0]
 		except:
 			db.rollback()
 			pass
