@@ -336,7 +336,7 @@ def Api(mode):
 						pass
 				cur = db.cursor(buffered=True)
 				cur.execute("select email_id from rooms where email_id=%s or name=%s",(email,email,))
-				esists = cur.fetchone()
+				exists = cur.fetchone()
 				if exists:
 					cur.execute('update rooms set verification=%s WHERE email_id=%s', (str(code),email, ))
 					
