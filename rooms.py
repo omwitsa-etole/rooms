@@ -296,7 +296,7 @@ def Api(mode):
 					except:
 						pass
 				cur = db.cursor(buffered=True)
-				cur.execute('select * from rooms where email_id=%s',(email,))
+				cur.execute('select * from rooms where email_id=%s or name=%s',(email,email,))
 				usr = cur.fetchone()
 				if usr:
 					cur.execute('SELECT * FROM rooms WHERE email_id=%s and verification=%s', (email, code, ))
@@ -335,12 +335,13 @@ def Api(mode):
 					except:
 						pass
 				cur = db.cursor(buffered=True)
-
-				cur.execute('update rooms set verification=%s WHERE email_id=%s', (str(code),email, ))
-				try:
-					msg = mail(email, str(code))
-				except:
-					pass
+				cur.execute("select email_id from rooms where email_id=%s or name=%s",(email,email,))
+				esists = cur.fetchone()
+				if exists:
+					cur.execute('update rooms set verification=%s WHERE email_id=%s', (str(code),email, ))
+					
+					msg = mail(exists[0], str(code))
+					
 				mssg= "success"
 			except Exception as e:
 				mssg = "Error occured during transaction"

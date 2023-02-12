@@ -155,7 +155,7 @@ function getCode(mode){
 	if(email.length > 0){
 		let msg = $.post("/api/v1/request/getCode", {key: "email",email: email});
 		if(msg.responseText == "success"){
-			snackPop("A verification code has been sent to email");
+			snackPop("A verification code has been sent to your email");
 			if(mode == "login"){
 				document.getElementById("succ").click()
 			}else{
