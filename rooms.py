@@ -459,17 +459,19 @@ def ApiRoom(mode):
 						cur.execute('update users set last_online=current_timestamp where email_id=%s and name=%s', (session["rooms-user"],session["room-name"],))
 						cur.execute('SELECT has_new FROM users WHERE email_id=%s and name=%s', (session["rooms-user"], user, ))
 						eid = cur.fetchone()
-						if eid and eid[0] == 1 or eid[0] == '1':
-							cur.execute('update users set has_new="0" where email_id=%s and name=%s', (session["rooms-user"], user,))
-							msg[0] = "true"
+						if eid:
+							if eid[0] == 1 or eid[0] == '1':
+								cur.execute('update users set has_new="0" where email_id=%s and name=%s', (session["rooms-user"], user,))
+								msg[0] = "true"
 						cur.execute("select on_call,caller_id from users where email_id=%s and name=%s",(session["rooms-user"],session["room-name"],))
 						calling = cur.fetchone()
-						if calling and calling[0] == 1 or calling[0] =="1":
-							if session.get("on-cal") != True:
-								msg[1] ="true"
-								cur.execute("select name from users where key_ID=%s",(calling[1],))
-								msg[2] = cur.fetchone()[0]
-								session["active"] = msg[2]
+						if calling:
+							if calling[0] == 1 or calling[0] =="1":
+								if session.get("on-cal") != True:
+									msg[1] ="true"
+									cur.execute("select name from users where key_ID=%s",(calling[1],))
+									msg[2] = cur.fetchone()[0]
+									session["active"] = msg[2]
 					except Exception as e:
 						db.rollback()
 						print(str(e))
