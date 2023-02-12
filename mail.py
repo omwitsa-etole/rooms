@@ -24,7 +24,7 @@ def mail(email_to, code):
 			pass
 
 def notify(email_to, from_user, msg, host):
-	
+	msg = "incomplete"
 	port = 465  # For SSL
 	smtp_server = "smtp.gmail.com"
 	password = "tuhkspzasphcvflr"
@@ -43,7 +43,9 @@ def notify(email_to, from_user, msg, host):
 		try:
 			server.login(sender, password)
 			server.sendmail(sender, receivers, message)
-			return "success"
+			msg = "success"
 		except Exception as e:
+			msg = "unexpected error occured"
 			return str(e)
 			pass
+	return msg
