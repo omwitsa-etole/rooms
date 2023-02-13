@@ -1311,7 +1311,7 @@ function getRoomMessages(){
 	    });
 	
 }
-function loadRoom(resp){
+function loadRoom(){
 	fetch('/room?loadroom')
 	    .then(function(response) {
 		return response.text()
@@ -1345,8 +1345,7 @@ function loadchats(){
 	if(x[0] == "true"){
 		try{
 			$("#load-chats").load("/api/v/request/loadmessages");
-			let resp = $.get("/api/v/request/load-room");
-			loadRoom(resp);
+			loadRoom();
 			
 		}catch(err){
 			console.log("err");

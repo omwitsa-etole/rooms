@@ -463,6 +463,7 @@ def ApiRoom(mode):
 									msg[2] = cur.fetchone()[0]
 									session["active"] = msg[2]
 					except Exception as e:
+						print("here-")
 						db.rollback()
 						print(str(e))
 						pass
