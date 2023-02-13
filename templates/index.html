@@ -757,9 +757,9 @@ Add Contact
 <center><h6>Connected to {%if session.get("active") != None%}{{session["active"]}}{%endif%} on video</h6></center>
 <div class="call-wrapper">
 <div class="call-inner">
-<div class="call-user" style="height: 500px;width: 90%;margin-left: 5%;">
-<video autoplay id="user-video-call" style="height: 600px;width: 100%;"></video>
-<audio id="user-video-audio"></audio>
+<div class="call-user" style="height: 500px;width: 90%;margin-left: 5%;" id="video_calling_load">
+
+
 </div>
 <div class="call-items">
 <a href="#" class="btn call-item call-start" onclick="mute('video')">
@@ -1153,7 +1153,8 @@ Forward
 <a href="#" class="btn call-item call-end" data-bs-dismiss="modal">
 <span class="material-icons"><i class="fa fa-times" aria-hidden="true"></i></span>
 </a>
-<a href="#video-call" onclick="startVideo()" class="btn call-item call-start" data-bs-toggle="modal" data-bs-target="#make_call_video">
+<a style="display:none;" data-bs-toggle="modal" data-bs-target="#make_call_video" id="start_video_feed"></a>
+<a href="#video-call" onclick="startVideo()" class="btn call-item call-start" >
 <i class="fa fa-video"></i>
 </a>
 </div>
@@ -1846,18 +1847,25 @@ const video = document.getElementById("user-video-call");
 const audio = document.getElementById("user-video-audio");
 const audio_call = document.getElementById("user-audio-call");
 function startVideo(){
+	document.getElementById('start_video_feed').click();
+	$("#video_calling_load").load("{{url_for('ApiRoom',mode='getVideo')}}");
 	
-	navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-	  video.srcObject = stream;
-	  audio.srcObject = stream;
-	});
+	//navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+	  //video.srcObject = stream;
+	  //audio.srcObject = stream;
+	//});
 }
 
 function stopVideo(){
-   
-	 video.srcObject = null;
-	  audio.srcObject = null;
-   
+	$.ajaxSetup({async: false});
+	navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+	  stream.getTracks().forEach(function(track) {
+	  track.stop();
+	});
+	});
+   	if(location.hash.includes('video-call')){
+		location.hash = "";	
+	}
 }
 function startAudio(){
 	let msg =$.post("/api/v1/request/connect",{key: "email"});

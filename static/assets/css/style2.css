@@ -3996,7 +3996,7 @@ body[data-theme="dark"]  h4, body[data-theme="dark"]  h5, body[data-theme="dark"
 		display: none;
 	}
 	.user-menu.nav > li > a > span:not(.user-img) {
-		display: none;
+		display: ;
 	}
 	.navbar-nav .open .dropdown-menu {
 		float: left;

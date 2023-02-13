@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, abort, flash
+from flask import Flask, render_template, request, redirect, url_for, session, abort, flash,Response
 import random
 import mysql.connector
 import datetime
@@ -18,10 +18,30 @@ from datetime import timedelta
 from cryptography.fernet import Fernet
 from mail import *
 from datetime import date
+import cv2
 
 app = Flask(__name__)
 app.debug = True
 app.secret_key = 'app@BlogSpot'
+
+
+def gen_frames(camera):  # generate frame by frame from camera
+    while True:
+        # Capture frame-by-frame
+        success, frame = camera.read()  # read the camera frame
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+@app.route('/video_feed')
+def video_feed():
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    camera = cv2.VideoCapture(0)
+    return Response(gen_frames(camera),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 def connector():
@@ -427,6 +447,8 @@ def Api(mode):
 
 @app.route("/api/v/request/<mode>", methods=['GET', 'POST'])
 def ApiRoom(mode):
+	if mode == "getVideo":
+		return render_template("video.html")
 	if mode == "checkRoom":
 		msg = ["false", "false","None"]
 		if session.get("active")=="None":
@@ -1159,6 +1181,7 @@ def rooms():
 		finally:
 			db.close()
 		return render_template("room-messages.html",message=message,active=active_user,Fernet=Fernet)
+	
 	chats = request.args.get("chats")
 	groups = request.args.get("groups")
 	status = request.args.get("status")
