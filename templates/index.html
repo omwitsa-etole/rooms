@@ -355,18 +355,18 @@ function viewStatus(){
 <div class="bottom-menus">
 <ul>
 <li>
-<a href="#" data-bs-toggle="modal" data-bs-target="#add-new-group" onclick="addGroup('add-new-group')">
+<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add-new-group" onclick="addGroup('add-new-group')">
 <span class="material-icons group-add-btn" title="Add Groups"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
 
 </a>
 </li>
 <li>
-<a href="#" class="add-contacts-btn" data-bs-toggle="modal" data-bs-target="#add-contact" title="Add Contacts">
+<a href="javascript:void(0)" class="add-contacts-btn" data-bs-toggle="modal" data-bs-target="#add-contact" title="Add Contacts">
 <i class="fa fa-plus"></i>
 </a>
 </li>
 <li>
-<a href="#" id="dark-mode-toggle" class="dark-mode-toggle" onclick="toDarkmode()">
+<a href="javascript:void(0)" id="dark-mode-toggle" class="dark-mode-toggle" onclick="toDarkmode()">
 <i class="fa fa-moon" title="Dark mode"></i>
  </a>
 </li>
@@ -374,7 +374,7 @@ function viewStatus(){
 <div class="dropdown">
 <img class="fa" src="avatar.jpg" alt="" onclick="showDropdown('profile-drop')" >
 <div class="dropdown-content" id="profile-drop">
-<a style="display:none;" id="new-s" href="#" data-bs-toggle="modal" data-bs-target="#new-status"></a>
+<a style="display:none;" id="new-s" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#new-status"></a>
 <a href="javascript:void(0)" onclick="closeTab('middle1')">Profile <span class="profile-icon-col"><i class="fa fa-id-card-alt"></i></span></a>
 <a href="{{url_for('roomSettings')}}" >Settings <span class="profile-icon-col"><i class="fa fa-cog"></i></span></a>
 <a href="javascript:void(0)" onclick="getArchived('true')">Archived <span class="profile-icon-col"><i class="fa fa-archive" aria-hidden="true"></i></span></a>
@@ -402,7 +402,7 @@ function viewStatus(){
 <div class="add-section">
 <ul>
 
-<li><a href="#" data-bs-toggle="modal" data-bs-target="#add-user"><i class="fa fa-plus"></i></a></li>
+<li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add-user"><i class="fa fa-plus"></i></a></li>
 </ul>
 </div>
 </div>
@@ -532,7 +532,7 @@ function getMessager(){
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
 </div>
 <div class="">
 <button type="button"  class="btn btn-block newgroup_create mb-0">
@@ -575,7 +575,7 @@ Report
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
 </div>
 <div class="">
 <button type="button"  class="btn btn-block newgroup_create mb-0">
@@ -619,7 +619,7 @@ Add Password
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
 </div>
 <div class="">
 <button type="button"  class="btn btn-block newgroup_create mb-0">
@@ -664,7 +664,7 @@ Add Contact
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" id="add-btn" onclick="NewUser()" class="btn btn-block newgroup_create mb-0">
@@ -703,7 +703,7 @@ Add Alias
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close" id="close-mod">Cancel</a>
 </div>
 <div class="">
 <button type="button" id="add-btn" onclick="NewContact()" class="btn btn-block newgroup_create mb-0">
@@ -732,10 +732,10 @@ Add Contact
 <audio id="user-audio-call"></audio>
 </div>
 <div class="call-items">
-<a href="#" class="btn call-item call-start" onclick="mute('audio')">
+<a href="javascript:void(0)" class="btn call-item call-start" onclick="mute('audio')">
 <i id="mute-audio" class="fa fa-microphone"></i>
 </a>
-<a href="#" class="btn call-item call-end" onclick="stopAudio()" data-bs-dismiss="modal">
+<a href="javascript:void(0)" class="btn call-item call-end" onclick="stopAudio()" data-bs-dismiss="modal">
 <span class="material-icons" ><i class="fa fa-times" aria-hidden="true"></i></span>
 </a>
 </div>
@@ -762,13 +762,13 @@ Add Contact
 
 </div>
 <div class="call-items">
-<a href="#" class="btn call-item call-start" onclick="mute('video')">
+<a href="javascript:void(0)" class="btn call-item call-start" onclick="mute('video')">
 <i id="mute" class="fa fa-microphone"></i>
 </a>
-<a href="#" class="btn call-item call-end" onclick="stopVideo()" data-bs-dismiss="modal" >
+<a href="javascript:void(0)" class="btn call-item call-end" onclick="stopVideo()" data-bs-dismiss="modal" >
 <span class="material-icons" ><i class="fa fa-times" aria-hidden="true"></i></span>
 </a>
-<a href="#" class="btn call-item call-end" onclick="closeShow()">
+<a href="javascript:void(0)" class="btn call-item call-end" onclick="closeShow()">
 <span class="material-icons" ><i id="vid" class="fa fa-video"></i></span>
 </a>
 </div>
@@ -807,7 +807,7 @@ Add Contact
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" class="btn btn-block newgroup_create mb-0" onclick="chatSupport()">
@@ -852,7 +852,7 @@ Send
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" class="btn btn-block newgroup_create mb-0" data-bs-dismiss="modal" aria-label="Close">
@@ -917,7 +917,7 @@ Invite
 <div class="form-row profile_form text-end float-end m-0 align-items-center">
 
 <div class="cancel-btn me-4">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" class="btn btn-block newgroup_create mb-0" data-bs-toggle="modal" data-bs-target="#add-group-member" data-bs-dismiss="modal" aria-label="Close">
@@ -986,7 +986,7 @@ Select all <input type="checkbox" onchange="addUsers('all')">
 <div class="form-row profile_form text-end float-end m-0 mt-3 align-items-center">
 
 <div class="cancel-btn me-3">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" class="btn newgroup_create previous mb-0 me-3" data-bs-toggle="modal" data-bs-target="#add-new-group" data-bs-dismiss="modal" aria-label="Close">
@@ -1121,7 +1121,7 @@ Select all <input type="checkbox" onchange="addUsers('all')">
 <div class="form-row profile_form text-end float-end m-0 mt-3 align-items-center">
 
 <div class="cancel-btn me-3">
-<a href="#" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+<a href="javascript:void(0)" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
 </div>
 <div class="">
 <button type="button" class="btn btn-block newgroup_create mb-0" data-bs-dismiss="modal" aria-label="Close">
@@ -1150,7 +1150,7 @@ Forward
 </h4>
 </div>
 <div class="call-items">
-<a href="#" class="btn call-item call-end" data-bs-dismiss="modal">
+<a href="javascript:void(0)" class="btn call-item call-end" data-bs-dismiss="modal">
 <span class="material-icons"><i class="fa fa-times" aria-hidden="true"></i></span>
 </a>
 <a style="display:none;" data-bs-toggle="modal" data-bs-target="#make_call_video" id="start_video_feed"></a>
@@ -1185,7 +1185,7 @@ Forward
 <span class="material-icons" ><i class="fa fa-times" aria-hidden="true"></i></span>
 </a>
 <a style="display:none;" id="start_audio_call" data-bs-toggle="modal" data-bs-target="#make_call_audio" href="javascript:void(0)"></a>
-<a href="#" class="btn call-item call-start" onclick="startAudio()" >
+<a href="javascript:void(0)" class="btn call-item call-start" onclick="startAudio()" >
 <i class="fa fa-phone"></i>
 </a>
 </div>
@@ -1467,14 +1467,14 @@ function SendMessage(){
 		</div>
 		<div class="chat-action-btns ms-3">
 		<div class="chat-action-col">
-		<a class="#" href="#" data-bs-toggle="dropdown">
+		<a class="" href="javascript:void(0)" data-bs-toggle="dropdown">
 		<i class="fa fa-ellipsis-h"></i>
 		</a>
 		<div class="dropdown-menu dropdown-menu-end">
-		<a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="fa fa-copy"></i></span></a>
-		<a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
-		<a href="#" class="dropdown-item">Forward <span><i class="fa fa-share"></i></span></a>
-		<a href="#" class="dropdown-item">Delete <span><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
+		<a href="javascript:void(0)" class="dropdown-item dream_profile_menu">Copy <span><i class="fa fa-copy"></i></span></a>
+		<a href="javascript:void(0)" class="dropdown-item">Save <span class="material-icons">save</span></a>
+		<a href="javascript:void(0)" class="dropdown-item">Forward <span><i class="fa fa-share"></i></span></a>
+		<a href="javascript:void(0)" class="dropdown-item">Delete <span><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
 		</div>
 		</div>
 		</div>
