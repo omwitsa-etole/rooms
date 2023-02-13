@@ -457,7 +457,9 @@ def ApiRoom(mode):
 						calling = cur.fetchone()
 						if calling:
 							if calling[0] == 1 or calling[0] =="1":
+								cur.execute('update users set on_call="0" where email_id=%s and name=%s', (session["rooms-user"], user,))
 								if session.get("on-cal") != True:
+									
 									msg[1] ="true"
 									cur.execute("select name from users where key_ID=%s",(calling[1],))
 									msg[2] = cur.fetchone()[0]
