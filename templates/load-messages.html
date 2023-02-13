@@ -2,7 +2,7 @@
 {%if session.get("groups") == None and session.get("status") == None%}
 <ul class="user-list mt-2" style="height: 70%;overflow: auto;">
 {% set shown = []%}
-
+{%set shown_b = []%}
 {%if chats == None%}
 {% for message in messages%}
 	{%set count = 0%}
@@ -22,7 +22,7 @@
 				{%set msg = 'This Message has been deleted'%}
 				{%endif%}
 				{% set shown = shown.append(message[6]) %}
-				{% set shown = shown.append(message[0]) %}
+				{% set shown_b = shown_b.append(message[0]) %}
 				{%if get_users[pos][1] == session["room-name"]%}
 					<li class="user-list-item" id="{{get_users[pos][0]}}" onclick="activateRoom(this.id)">
 					<div class="avatar avatar-online">
