@@ -661,7 +661,7 @@ def ApiRoom(mode):
 		pass
 	if mode == "load-room":
 		ddate = date.today()
-		x = {"success": False}
+		x = {"success": 0}
 		if session.get("room-name") != None and session.get("room-name") != "NULL":
 			n = 0
 			if session.get("active") != None:
@@ -686,7 +686,7 @@ def ApiRoom(mode):
 							cur.execute('SELECT * FROM room_messages WHERE id=%s and reciever_id=%s or id=%s and reciever_id=%s', (eid[0], eiid[0], eiid[0], eid[0], ))
 							messages = cur.fetchall()
 					n = len(messages)
-					x = {"success":True,"data":messages}
+					x = {"success":1,"data":messages}
 				except Exception as e:
 					db.rollback()
 					print(str(e))
@@ -711,7 +711,7 @@ def ApiRoom(mode):
 					cur.execute('SELECT * FROM group_messages WHERE id=%s', (group, ))
 					messages = cur.fetchall()
 					n = len(messages)
-					x = {"success":True,"data":messages}
+					x = {"success":1,"data":messages}
 				except Exception as e:
 					db.rollback()
 					print(str(e))

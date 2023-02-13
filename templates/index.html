@@ -1311,7 +1311,22 @@ function getRoomMessages(){
 	    });
 	
 }
-
+function loadRoom(resp){
+	fetch('/room?loadroom')
+	    .then(function(response) {
+		return response.text()
+	    })
+	    .then(function(html) {    
+		document.getElementById("show-messages").innerHTML = html;
+		let div = document.getElementById("show-messages")
+		div.scrollTop = div.scrollHeight;
+	    })
+	    .catch(function(err) {  
+		console.log(err);
+		  
+	    });
+	//$("#show-messages").load("/room?loadroom");
+}
 function loadchats(){
 	if(location.hash.includes("archived")){
 		$("#load-chats").load("/api/v/request/loadmessages?archived");
@@ -1330,9 +1345,9 @@ function loadchats(){
 	if(x[0] == "true"){
 		try{
 			$("#load-chats").load("/api/v/request/loadmessages");
+			let resp = $.get("/api/v/request/load-room");
+			loadRoom(resp);
 			
-			let div = document.getElementById("show-messages")
-			div.scrollTop = div.scrollHeight;
 		}catch(err){
 			console.log("err");
 			snackPop("You have a new message");		
