@@ -10,7 +10,7 @@
 	{%set pos=messages.index(message)%}
 	{% if message[9] != 1 and message[0] == eid[0] or  message[6] == eid[0] %}
 	
-			{%if message[6] not in shown%}
+			{%if message[6] not in shown and message[0] not in shown_b%}
 				
 				{%if message[7] == 0 or message[7] == '0'%}
 					{%set count = count + 1%}
