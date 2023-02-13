@@ -211,6 +211,10 @@ def Api(mode):
 				if exists:
 					return "Username "+name+" not available"
 				cur.execute('INSERT INTO rooms (email_id, verification, name,dkey) VALUES(%s, %s, %s,%s)', (email, str(code), name, key, ))
+				cur.execute('INSERT INTO users (key_ID, email_id, name) VALUES(%s, %s, %s)', (key, email, name, ))
+				cur.execute("insert into profile (key_ID,email_id,name) VALUES(%s, %s, %s)",(key, email, name, ))
+				cur.execute("insert into profile_links (key_ID) values(%s)",(key,))
+				mail(email, str(code))
 				msg ="success"
 			except Exception as e:
 				db.rollback()
@@ -219,26 +223,7 @@ def Api(mode):
 			finally:
 				db.commit()
 				db.close()
-			try:
-				while True:
-					try:
-						db = connector()
-						break
-					except:
-						pass
-				cur = db.cursor(buffered=True)
-
-				cur.execute('SELECT verification FROM rooms WHERE email_id=%s and dkey=%s', (email, key, ))
-				code = cur.fetchone()
-				if code:
-					msg = mail(email, str(code[0]))
-			except Exception as e:
-				msg = "Error occured during transaction"
-				db.rollback()
-				print(str(e))
-				pass
-			finally:
-				db.close()
+			
 		return msg
 	if mode=="verify":
 		msg = "Not finished"
@@ -262,9 +247,14 @@ def Api(mode):
 				
 				if exists:
 					cur.execute("update rooms set verification=%s WHERE email_id=%s and verification=%s",(str(newcode),email,code,))
-					cur.execute('INSERT INTO users (key_ID, email_id, name) VALUES(%s, %s, %s)', (exists[4], exists[0], exists[3], ))
-					cur.execute("insert into profile (key_ID,email_id,name) VALUES(%s, %s, %s)",(exists[4], exists[0], exists[3], ))
-					cur.execute("insert into profile_links (key_ID) values(%s)",(exists[4],))
+					cur.execute("select * from users where email_id=%s",(email,))
+					exs = cur.fetchone()
+					if exs:
+						pass
+					else:
+						cur.execute('INSERT INTO users (key_ID, email_id, name) VALUES(%s, %s, %s)', (exists[4], exists[0], exists[3], ))
+						cur.execute("insert into profile (key_ID,email_id,name) VALUES(%s, %s, %s)",(exists[4], exists[0], exists[3], ))
+						cur.execute("insert into profile_links (key_ID) values(%s)",(exists[4],))
 					session["loggedin"] = "user"
 					session["rooms-user"] = exists[0]
 					session["room-name"] = exists[3]
