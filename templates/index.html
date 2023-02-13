@@ -1318,6 +1318,7 @@ function loadRoom(){
 	    })
 	    .then(function(html) {    
 		document.getElementById("show-messages").innerHTML = html;
+		playChime();
 		let div = document.getElementById("show-messages")
 		div.scrollTop = div.scrollHeight;
 	    })
@@ -1389,6 +1390,10 @@ function newCall(id){
 }
 function playSound(){
 	ding = new Audio("{{url_for('static',filename='call_ringtone_02.mp3')}}");
+	ding.play();
+}
+function playChime(){
+	ding = new Audio("{{url_for('static',filename='chime_01.mp3')}}");
 	ding.play();
 }
 function endCall(){
